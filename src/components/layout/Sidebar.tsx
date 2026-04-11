@@ -11,11 +11,11 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
-  Headphones,
   X,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import s10Logo from "@/assets/s10-logo.png";
 
 interface MenuItem {
   label: string;
@@ -47,11 +47,11 @@ function SidebarItem({ item, collapsed }: { item: MenuItem; collapsed: boolean }
       className={cn(
         "flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
         "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-        active && "bg-sidebar-accent text-sidebar-accent-foreground",
+        active && "bg-sidebar-accent text-sidebar-primary font-semibold",
         collapsed && "justify-center px-2"
       )}
     >
-      <Icon className="h-5 w-5 shrink-0" />
+      <Icon className={cn("h-5 w-5 shrink-0", active && "text-sidebar-primary")} />
       {!collapsed && <span>{item.label}</span>}
     </button>
   );
@@ -82,11 +82,10 @@ export function Sidebar() {
       <div className={cn("flex items-center gap-3 border-b border-sidebar-border px-4 py-4", collapsed && "justify-center px-2")}>
         {!collapsed && (
           <div className="flex items-center gap-2">
-            <Headphones className="h-6 w-6 text-sidebar-primary" />
-            <span className="text-lg font-semibold text-sidebar-accent-foreground">CallDesk</span>
+            <img src={s10Logo} alt="S10.AI" className="h-8 w-auto" />
           </div>
         )}
-        {collapsed && <Headphones className="h-6 w-6 text-sidebar-primary" />}
+        {collapsed && <img src={s10Logo} alt="S10.AI" className="h-6 w-auto" />}
         {isMobile && (
           <button onClick={() => setSidebarMobileOpen(false)} className="ml-auto text-sidebar-muted hover:text-sidebar-foreground">
             <X className="h-5 w-5" />
@@ -148,7 +147,7 @@ export function Sidebar() {
       {sidebarContent}
       <button
         onClick={toggleSidebar}
-        className="absolute -right-3 top-6 z-10 flex h-6 w-6 items-center justify-center rounded-full border bg-card text-muted-foreground shadow-sm hover:text-foreground"
+        className="absolute -right-3 top-6 z-10 flex h-6 w-6 items-center justify-center rounded-full border bg-card text-muted-foreground shadow-sm hover:text-foreground hover:bg-accent"
       >
         {collapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronLeft className="h-3.5 w-3.5" />}
       </button>

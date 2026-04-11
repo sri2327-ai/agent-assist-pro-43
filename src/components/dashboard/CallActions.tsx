@@ -21,12 +21,13 @@ export function CallActions({ record, onViewSummary, onViewTranscript }: CallAct
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <button className="rounded-md p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground">
+        <button className="rounded-md p-1.5 text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors">
           <MoreHorizontal className="h-4 w-4" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-44">
         <DropdownMenuItem
+          className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10"
           onClick={() => {
             toast.info(`📞 Calling ${record.customerName}...`);
             setOpen(false);
@@ -36,6 +37,7 @@ export function CallActions({ record, onViewSummary, onViewTranscript }: CallAct
           Trigger Call
         </DropdownMenuItem>
         <DropdownMenuItem
+          className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10"
           onClick={() => {
             onViewSummary(record);
             setOpen(false);
@@ -45,6 +47,7 @@ export function CallActions({ record, onViewSummary, onViewTranscript }: CallAct
           View Summary
         </DropdownMenuItem>
         <DropdownMenuItem
+          className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10"
           onClick={() => {
             onViewTranscript(record);
             setOpen(false);
