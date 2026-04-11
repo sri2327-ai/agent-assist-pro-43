@@ -46,12 +46,12 @@ function SidebarItem({ item, collapsed }: { item: MenuItem; collapsed: boolean }
       }}
       className={cn(
         "flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
-        "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-        active && "bg-sidebar-accent text-sidebar-primary font-semibold",
+        "text-white/80 hover:bg-white/10 hover:text-white",
+        active && "bg-white/15 text-white font-semibold border border-white/20",
         collapsed && "justify-center px-2"
       )}
     >
-      <Icon className={cn("h-5 w-5 shrink-0", active && "text-sidebar-primary")} />
+      <Icon className={cn("h-5 w-5 shrink-0", active && "text-white")} />
       {!collapsed && <span>{item.label}</span>}
     </button>
   );
@@ -108,7 +108,7 @@ export function Sidebar() {
             navigate("/login");
           }}
           className={cn(
-            "flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors",
+            "flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-white/60 hover:bg-white/10 hover:text-white transition-colors",
             collapsed && "justify-center px-2"
           )}
         >
