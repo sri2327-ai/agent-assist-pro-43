@@ -1,5 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { StatusChip } from "./StatusChip";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 import type { CallRecord } from "@/data/mockCalls";
 
 interface SummaryDialogProps {
@@ -10,30 +12,41 @@ interface SummaryDialogProps {
 
 export function SummaryDialog({ record, open, onClose }: SummaryDialogProps) {
   if (!record) return null;
+
+  const fields = [
+    { label: "Call ID", value: <span className="font-mono text-xs">{record.callId}</span> },
+    { label: "Agent", value: record.agentName },
+    { label: "Customer", value: record.customerName },
+    { label: "Status", value: <StatusChip status={record.status} /> },
+    { label: "Duration", value: <span className="font-mono text-xs">{record.duration}</span> },
+    { label: "Date", value: record.date },
+  ];
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Call Summary</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-3 text-sm">
-          <div className="grid grid-cols-2 gap-2">
-            <span className="text-muted-foreground">Call ID</span>
-            <span className="font-medium font-mono">{record.callId}</span>
-            <span className="text-muted-foreground">Agent</span>
-            <span className="font-medium">{record.agentName}</span>
-            <span className="text-muted-foreground">Customer</span>
-            <span className="font-medium">{record.customerName}</span>
-            <span className="text-muted-foreground">Status</span>
-            <StatusChip status={record.status} />
-            <span className="text-muted-foreground">Duration</span>
-            <span className="font-medium font-mono">{record.duration}</span>
-            <span className="text-muted-foreground">Date</span>
-            <span className="font-medium">{record.date}</span>
+      <DialogContent className="max-w-md p-0 overflow-hidden">
+        <div className="bg-primary/5 px-6 py-4 border-b">
+          <DialogHeader>
+            <DialogTitle className="text-lg">Call Summary</DialogTitle>
+          </DialogHeader>
+        </div>
+        <div className="px-6 py-4 space-y-4">
+          <div className="space-y-3">
+            {fields.map((field) => (
+              <div key={field.label} className="flex items-center justify-between py-1.5 border-b border-border/50 last:border-0">
+                <span className="text-sm text-muted-foreground">{field.label}</span>
+                <span className="text-sm font-medium">{field.value}</span>
+              </div>
+            ))}
           </div>
-          <div className="border-t pt-3">
-            <p className="text-muted-foreground mb-1 font-medium">Summary</p>
-            <p>{record.summary}</p>
+          <div className="rounded-lg bg-muted/50 p-4">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Summary</p>
+            <p className="text-sm leading-relaxed">{record.summary}</p>
+          </div>
+          <div className="flex justify-end pt-2">
+            <Button variant="outline" size="sm" onClick={onClose} className="hover:bg-primary hover:text-primary-foreground">
+              <X className="mr-1 h-3.5 w-3.5" /> Close
+            </Button>
           </div>
         </div>
       </DialogContent>

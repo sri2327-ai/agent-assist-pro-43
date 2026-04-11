@@ -8,6 +8,7 @@ import { CallActions } from "./CallActions";
 import { SummaryDialog } from "./SummaryDialog";
 import { TranscriptDialog } from "./TranscriptDialog";
 import type { CallRecord } from "@/data/mockCalls";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps {
   data: CallRecord[];
@@ -85,6 +86,8 @@ export function DataTable({ data, loading }: DataTableProps) {
     { label: "Date", key: "date" },
   ];
 
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i);
+
   return (
     <div className="space-y-4">
       {/* Filters */}
@@ -110,21 +113,21 @@ export function DataTable({ data, loading }: DataTableProps) {
           </SelectContent>
         </Select>
         {hasFilters && (
-          <Button variant="ghost" size="sm" onClick={resetFilters}>
+          <Button variant="ghost" size="sm" onClick={resetFilters} className="hover:bg-destructive/10 hover:text-destructive">
             <X className="mr-1 h-4 w-4" /> Reset
           </Button>
         )}
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg border bg-card">
+      <div className="overflow-x-auto rounded-lg border bg-card shadow-sm">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b bg-muted/50">
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="cursor-pointer whitespace-nowrap px-4 py-3 text-left font-medium text-muted-foreground hover:text-foreground select-none"
+                  className="cursor-pointer whitespace-nowrap px-4 py-3 text-left font-semibold text-muted-foreground hover:text-foreground select-none transition-colors"
                   onClick={() => handleSort(col.key)}
                 >
                   <span className="inline-flex items-center gap-1">
@@ -133,7 +136,7 @@ export function DataTable({ data, loading }: DataTableProps) {
                   </span>
                 </th>
               ))}
-              <th className="px-4 py-3 text-right font-medium text-muted-foreground">Actions</th>
+              <th className="px-4 py-3 text-right font-semibold text-muted-foreground">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -155,7 +158,7 @@ export function DataTable({ data, loading }: DataTableProps) {
               </tr>
             ) : (
               paged.map((record) => (
-                <tr key={record.id} className="border-b last:border-0 hover:bg-muted/30 transition-colors">
+                <tr key={record.id} className="border-b last:border-0 hover:bg-muted/40 transition-colors">
                   <td className="whitespace-nowrap px-4 py-3 font-medium">{record.agentName}</td>
                   <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{record.callId}</td>
                   <td className="whitespace-nowrap px-4 py-3">{record.customerName}</td>
@@ -176,17 +179,45 @@ export function DataTable({ data, loading }: DataTableProps) {
         </table>
       </div>
 
-      {/* Pagination */}
+      {/* Pagination with page numbers */}
       {filtered.length > 0 && (
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
           <span>
             Showing {page * rowsPerPage + 1}–{Math.min((page + 1) * rowsPerPage, filtered.length)} of {filtered.length}
           </span>
-          <div className="flex gap-1">
-            <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => p - 1)}>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page === 0}
+              onClick={() => setPage((p) => p - 1)}
+              className="hover:bg-primary hover:text-primary-foreground disabled:opacity-40"
+            >
               Previous
             </Button>
-            <Button variant="outline" size="sm" disabled={page >= totalPages - 1} onClick={() => setPage((p) => p + 1)}>
+            {pageNumbers.map((p) => (
+              <Button
+                key={p}
+                variant={p === page ? "default" : "outline"}
+                size="sm"
+                onClick={() => setPage(p)}
+                className={cn(
+                  "min-w-[2rem] px-2",
+                  p === page
+                    ? "bg-primary text-primary-foreground"
+                    : "hover:bg-primary/10 hover:text-primary"
+                )}
+              >
+                {p + 1}
+              </Button>
+            ))}
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page >= totalPages - 1}
+              onClick={() => setPage((p) => p + 1)}
+              className="hover:bg-primary hover:text-primary-foreground disabled:opacity-40"
+            >
               Next
             </Button>
           </div>
