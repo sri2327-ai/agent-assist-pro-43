@@ -77,7 +77,7 @@ export function Sidebar() {
   const collapsed = !isMobile && sidebarCollapsed;
 
   const sidebarContent = (
-    <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
+    <div className="flex h-full flex-col text-sidebar-foreground" style={{ background: 'linear-gradient(180deg, #143151 0%, #1a3a5c 50%, #387E89 100%)' }}>
       {/* Header */}
       <div className={cn("flex items-center gap-3 border-b border-sidebar-border px-4 py-4", collapsed && "justify-center px-2")}>
         {!collapsed && (
