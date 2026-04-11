@@ -24,7 +24,7 @@ export function SummaryDialog({ record, open, onClose }: SummaryDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md p-0 overflow-hidden">
+      <DialogContent className="max-w-md rounded-xl p-0 overflow-hidden animate-scale-in">
         <div className="bg-primary/5 px-6 py-4 border-b">
           <DialogHeader>
             <DialogTitle className="text-lg">Call Summary</DialogTitle>

@@ -17,7 +17,7 @@ export function TranscriptDialog({ record, open, onClose }: TranscriptDialogProp
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg max-h-[80vh] p-0 overflow-hidden">
+      <DialogContent className="max-w-lg max-h-[80vh] rounded-xl p-0 overflow-hidden animate-scale-in">
         <div className="bg-primary/5 px-6 py-4 border-b">
           <DialogHeader>
             <DialogTitle className="text-lg">Call Transcript — {record.callId}</DialogTitle>
