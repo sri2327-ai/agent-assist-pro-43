@@ -26,17 +26,21 @@ export default function Dashboard() {
   const failed = mockCalls.filter((c) => c.status === "Failed").length;
 
   return (
-    <div className="space-y-6">
-      <PageHeader title="Call Agent Support" subtitle="Monitor and manage all agent calls" />
+    <div className="flex h-full flex-col overflow-hidden">
+      <div className="shrink-0 space-y-4 pb-4">
+        <PageHeader title="Call Agent Support" subtitle="Monitor and manage all agent calls" />
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Total Calls" value={total} icon={Phone} color="bg-primary/10 text-primary" />
-        <StatCard label="Successful" value={success} icon={CheckCircle} color="bg-success/10 text-success" />
-        <StatCard label="Pending" value={pending} icon={Clock} color="bg-warning/10 text-warning" />
-        <StatCard label="Failed" value={failed} icon={XCircle} color="bg-destructive/10 text-destructive" />
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <StatCard label="Total Calls" value={total} icon={Phone} color="bg-primary/10 text-primary" />
+          <StatCard label="Successful" value={success} icon={CheckCircle} color="bg-success/10 text-success" />
+          <StatCard label="Pending" value={pending} icon={Clock} color="bg-warning/10 text-warning" />
+          <StatCard label="Failed" value={failed} icon={XCircle} color="bg-destructive/10 text-destructive" />
+        </div>
       </div>
 
-      <DataTable data={mockCalls} />
+      <div className="flex min-h-0 flex-1 flex-col">
+        <DataTable data={mockCalls} />
+      </div>
     </div>
   );
 }

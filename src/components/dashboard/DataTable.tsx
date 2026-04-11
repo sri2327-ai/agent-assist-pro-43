@@ -107,9 +107,9 @@ export function DataTable({ data, loading }: DataTableProps) {
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="space-y-4">
-      {/* Filters */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+    <div className="flex min-h-0 flex-1 flex-col gap-3">
+      {/* Sticky Filters */}
+      <div className="shrink-0 flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -147,11 +147,11 @@ export function DataTable({ data, loading }: DataTableProps) {
         )}
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto rounded-xl border bg-card shadow-sm">
+      {/* Scrollable Table */}
+      <div className="min-h-0 flex-1 overflow-auto rounded-xl border bg-card shadow-sm">
         <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b bg-muted/50">
+          <thead className="sticky top-0 z-10 bg-muted/95 backdrop-blur-sm">
+            <tr className="border-b">
               {columns.map((col) => (
                 <th
                   key={col.key}
@@ -222,7 +222,7 @@ export function DataTable({ data, loading }: DataTableProps) {
 
       {/* Pagination */}
       {filtered.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
+        <div className="shrink-0 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground pb-1">
           <span>
             Showing {page * rowsPerPage + 1}–{Math.min((page + 1) * rowsPerPage, filtered.length)} of {filtered.length}
           </span>
