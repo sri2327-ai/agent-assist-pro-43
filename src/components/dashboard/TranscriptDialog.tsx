@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import type { CallRecord } from "@/data/mockCalls";
@@ -16,15 +16,18 @@ export function TranscriptDialog({ record, open, onClose }: TranscriptDialogProp
   const lines = record.transcript.split("\n").filter(Boolean);
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg max-h-[80vh] rounded-xl p-0 overflow-hidden animate-scale-in">
-        <div className="bg-primary/5 px-6 py-4 border-b">
-          <DialogHeader>
-            <DialogTitle className="text-lg">Call Transcript — {record.callId}</DialogTitle>
-          </DialogHeader>
+    <Sheet open={open} onOpenChange={onClose}>
+      <SheetContent side="right" className="w-full sm:w-[50vw] sm:max-w-[50vw] p-0 border-l-0 overflow-hidden">
+        <div
+          className="px-6 py-5 border-b"
+          style={{ background: "linear-gradient(135deg, #143151, #387E89)" }}
+        >
+          <SheetHeader>
+            <SheetTitle className="text-lg text-white">Call Transcript — {record.callId}</SheetTitle>
+          </SheetHeader>
         </div>
-        <div className="px-6 py-4 space-y-3">
-          <div className="max-h-80 overflow-y-auto space-y-2 pr-2">
+        <div className="px-6 py-6 flex flex-col h-[calc(100%-72px)]">
+          <div className="flex-1 overflow-y-auto space-y-3 pr-1 pb-4">
             {lines.map((line, i) => {
               const isAgent = line.startsWith("Agent:");
               const isSystem = line.startsWith("System:") || line.startsWith("[");
@@ -32,24 +35,33 @@ export function TranscriptDialog({ record, open, onClose }: TranscriptDialogProp
                 <div
                   key={i}
                   className={cn(
-                    "rounded-lg px-3 py-2 text-sm transition-colors",
-                    isAgent && "bg-primary/10 ml-0 mr-8 hover:bg-primary/15",
-                    !isAgent && !isSystem && "bg-muted ml-8 mr-0 hover:bg-muted/80",
-                    isSystem && "text-center text-xs text-muted-foreground italic"
+                    "rounded-xl px-4 py-3 text-sm transition-all animate-fade-in",
+                    isAgent && "mr-12 text-white",
+                    !isAgent && !isSystem && "ml-12 bg-muted hover:bg-muted/80",
+                    isSystem && "text-center text-xs text-muted-foreground italic mx-8"
                   )}
+                  style={isAgent ? {
+                    background: "linear-gradient(135deg, #143151, #387E89)",
+                  } : undefined}
                 >
-                  {line}
+                  {isAgent && (
+                    <span className="block text-[10px] font-semibold uppercase tracking-wider mb-1 opacity-70">Agent</span>
+                  )}
+                  {!isAgent && !isSystem && (
+                    <span className="block text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: "#387E89" }}>Customer</span>
+                  )}
+                  <span>{line.replace(/^(Agent:|Customer:)\s*/, "")}</span>
                 </div>
               );
             })}
           </div>
-          <div className="flex justify-end pt-2 border-t">
-            <Button variant="outline" size="sm" onClick={onClose} className="hover:bg-primary hover:text-primary-foreground">
+          <div className="flex justify-end pt-4 border-t shrink-0">
+            <Button variant="outline" size="sm" onClick={onClose} className="rounded-xl hover:bg-primary hover:text-primary-foreground">
               <X className="mr-1 h-3.5 w-3.5" /> Close
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }
