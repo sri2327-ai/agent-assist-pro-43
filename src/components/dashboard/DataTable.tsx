@@ -1,8 +1,9 @@
 import { useState, useMemo } from "react";
-import { Search, X, ChevronUp, ChevronDown } from "lucide-react";
+import { Search, X, ChevronUp, ChevronDown, CalendarClock, PhoneCall } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { StatusChip } from "./StatusChip";
 import { CallActions } from "./CallActions";
 import { SummaryDialog } from "./SummaryDialog";
@@ -10,6 +11,7 @@ import { TranscriptDialog } from "./TranscriptDialog";
 import { CustomerDetailsDialog } from "./CustomerDetailsDialog";
 import { TriggerCallDialog } from "./TriggerCallDialog";
 import { ScheduleCallDialog } from "./ScheduleCallDialog";
+import { BulkActionsDialog } from "./BulkActionsDialog";
 import type { CallRecord } from "@/data/mockCalls";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +30,8 @@ export function DataTable({ data, loading }: DataTableProps) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortKey, setSortKey] = useState<SortKey>("date");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkMode, setBulkMode] = useState<"schedule" | "trigger" | null>(null);
 
   const [summaryRecord, setSummaryRecord] = useState<CallRecord | null>(null);
   const [transcriptRecord, setTranscriptRecord] = useState<CallRecord | null>(null);
@@ -83,6 +87,29 @@ export function DataTable({ data, loading }: DataTableProps) {
 
   const hasFilters = search || statusFilter !== "all";
 
+  // Selection logic
+  const allPageSelected = paged.length > 0 && paged.every((r) => selectedIds.has(r.id));
+  const somePageSelected = paged.some((r) => selectedIds.has(r.id));
+
+  const toggleAll = () => {
+    const newSet = new Set(selectedIds);
+    if (allPageSelected) {
+      paged.forEach((r) => newSet.delete(r.id));
+    } else {
+      paged.forEach((r) => newSet.add(r.id));
+    }
+    setSelectedIds(newSet);
+  };
+
+  const toggleRow = (id: string) => {
+    const newSet = new Set(selectedIds);
+    if (newSet.has(id)) newSet.delete(id);
+    else newSet.add(id);
+    setSelectedIds(newSet);
+  };
+
+  const selectedRecords = data.filter((r) => selectedIds.has(r.id));
+
   const columns: { label: string; key: SortKey }[] = [
     { label: "Agent Name", key: "agentName" },
     { label: "Call ID", key: "callId" },
@@ -92,7 +119,6 @@ export function DataTable({ data, loading }: DataTableProps) {
     { label: "Date", key: "date" },
   ];
 
-  // Generate smart page numbers with ellipsis
   const getPageNumbers = () => {
     if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i);
     const pages: (number | "ellipsis")[] = [];
@@ -110,7 +136,7 @@ export function DataTable({ data, loading }: DataTableProps) {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-3">
-      {/* Sticky Filters */}
+      {/* Filters */}
       <div className="shrink-0 flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -149,11 +175,56 @@ export function DataTable({ data, loading }: DataTableProps) {
         )}
       </div>
 
+      {/* Selection action bar */}
+      {selectedIds.size > 0 && (
+        <div className="shrink-0 flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2.5 animate-fade-in">
+          <span className="text-sm font-medium text-foreground">
+            {selectedIds.size} selected
+          </span>
+          <div className="ml-auto flex gap-2">
+            <Button
+              size="sm"
+              onClick={() => setBulkMode("schedule")}
+              className="rounded-lg gap-1.5 text-xs text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
+              style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)))" }}
+            >
+              <CalendarClock className="h-3.5 w-3.5" />
+              Schedule Selected
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => setBulkMode("trigger")}
+              className="rounded-lg gap-1.5 text-xs text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
+              style={{ background: "linear-gradient(135deg, hsl(var(--success)), hsl(var(--primary)))" }}
+            >
+              <PhoneCall className="h-3.5 w-3.5" />
+              Trigger Selected
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setSelectedIds(new Set())}
+              className="rounded-lg text-xs hover:bg-destructive/10 hover:text-destructive"
+            >
+              Clear
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Scrollable Table */}
       <div className="min-h-0 flex-1 overflow-auto rounded-xl border bg-card shadow-sm">
         <table className="w-full text-sm">
           <thead className="sticky top-0 z-10 bg-muted/95 backdrop-blur-sm">
             <tr className="border-b">
+              <th className="w-10 px-3 py-3">
+                <Checkbox
+                  checked={allPageSelected}
+                  onCheckedChange={toggleAll}
+                  className="rounded"
+                  {...(somePageSelected && !allPageSelected ? { "data-state": "indeterminate" as any } : {})}
+                />
+              </th>
               {columns.map((col) => (
                 <th
                   key={col.key}
@@ -173,7 +244,7 @@ export function DataTable({ data, loading }: DataTableProps) {
             {loading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i} className="border-b animate-pulse">
-                  {Array.from({ length: 7 }).map((_, j) => (
+                  {Array.from({ length: 8 }).map((_, j) => (
                     <td key={j} className="px-4 py-3">
                       <div className="h-4 w-24 rounded-lg bg-muted" />
                     </td>
@@ -182,7 +253,7 @@ export function DataTable({ data, loading }: DataTableProps) {
               ))
             ) : paged.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">
+                <td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">
                   No records found.
                 </td>
               </tr>
@@ -190,9 +261,19 @@ export function DataTable({ data, loading }: DataTableProps) {
               paged.map((record, idx) => (
                 <tr
                   key={record.id}
-                  className="border-b last:border-0 hover:bg-muted/40 transition-colors animate-fade-in"
+                  className={cn(
+                    "border-b last:border-0 hover:bg-muted/40 transition-colors animate-fade-in",
+                    selectedIds.has(record.id) && "bg-primary/5 hover:bg-primary/10"
+                  )}
                   style={{ animationDelay: `${idx * 30}ms` }}
                 >
+                  <td className="px-3 py-3">
+                    <Checkbox
+                      checked={selectedIds.has(record.id)}
+                      onCheckedChange={() => toggleRow(record.id)}
+                      className="rounded"
+                    />
+                  </td>
                   <td className="whitespace-nowrap px-4 py-3 font-medium">{record.agentName}</td>
                   <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{record.callId}</td>
                   <td className="whitespace-nowrap px-4 py-3">
@@ -277,6 +358,12 @@ export function DataTable({ data, loading }: DataTableProps) {
       <CustomerDetailsDialog record={customerRecord} open={!!customerRecord} onClose={() => setCustomerRecord(null)} />
       <TriggerCallDialog record={triggerCallRecord} open={!!triggerCallRecord} onClose={() => setTriggerCallRecord(null)} />
       <ScheduleCallDialog record={scheduleCallRecord} open={!!scheduleCallRecord} onClose={() => setScheduleCallRecord(null)} />
+      <BulkActionsDialog
+        open={!!bulkMode}
+        onClose={() => { setBulkMode(null); setSelectedIds(new Set()); }}
+        mode={bulkMode || "schedule"}
+        totalCalls={selectedIds.size}
+      />
     </div>
   );
 }
