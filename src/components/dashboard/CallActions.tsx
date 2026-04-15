@@ -22,22 +22,25 @@ interface CallActionsProps {
   onViewTranscript: (record: CallRecord) => void;
   onViewCustomer: (record: CallRecord) => void;
   onTriggerCall: (record: CallRecord) => void;
+  onScheduleCall: (record: CallRecord) => void;
 }
 
 const actionButtons = [
   { key: "call", icon: Phone, label: "Trigger Call", color: "hover:bg-success/10 hover:text-success" },
+  { key: "schedule", icon: CalendarClock, label: "Schedule Call", color: "hover:bg-primary/10 hover:text-primary" },
   { key: "summary", icon: Eye, label: "View Summary", color: "hover:bg-primary/10 hover:text-primary" },
   { key: "transcript", icon: FileText, label: "Transcript", color: "hover:bg-accent/80 hover:text-accent-foreground" },
   { key: "customer", icon: UserCircle, label: "Customer", color: "hover:bg-secondary/10 hover:text-secondary-foreground" },
 ] as const;
 
-export function CallActions({ record, onViewSummary, onViewTranscript, onViewCustomer, onTriggerCall }: CallActionsProps) {
+export function CallActions({ record, onViewSummary, onViewTranscript, onViewCustomer, onTriggerCall, onScheduleCall }: CallActionsProps) {
   const [open, setOpen] = useState(false);
   const { isDesktop } = useResponsive();
 
   const handleAction = (key: string) => {
     switch (key) {
       case "call": onTriggerCall(record); break;
+      case "schedule": onScheduleCall(record); break;
       case "summary": onViewSummary(record); break;
       case "transcript": onViewTranscript(record); break;
       case "customer": onViewCustomer(record); break;
