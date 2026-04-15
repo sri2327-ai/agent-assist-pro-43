@@ -9,6 +9,7 @@ import { SummaryDialog } from "./SummaryDialog";
 import { TranscriptDialog } from "./TranscriptDialog";
 import { CustomerDetailsDialog } from "./CustomerDetailsDialog";
 import { TriggerCallDialog } from "./TriggerCallDialog";
+import { ScheduleCallDialog } from "./ScheduleCallDialog";
 import type { CallRecord } from "@/data/mockCalls";
 import { cn } from "@/lib/utils";
 
@@ -32,6 +33,7 @@ export function DataTable({ data, loading }: DataTableProps) {
   const [transcriptRecord, setTranscriptRecord] = useState<CallRecord | null>(null);
   const [customerRecord, setCustomerRecord] = useState<CallRecord | null>(null);
   const [triggerCallRecord, setTriggerCallRecord] = useState<CallRecord | null>(null);
+  const [scheduleCallRecord, setScheduleCallRecord] = useState<CallRecord | null>(null);
 
   const filtered = useMemo(() => {
     let result = data;
@@ -211,6 +213,7 @@ export function DataTable({ data, loading }: DataTableProps) {
                       onViewTranscript={setTranscriptRecord}
                       onViewCustomer={setCustomerRecord}
                       onTriggerCall={setTriggerCallRecord}
+                      onScheduleCall={setScheduleCallRecord}
                     />
                   </td>
                 </tr>
@@ -273,6 +276,7 @@ export function DataTable({ data, loading }: DataTableProps) {
       <TranscriptDialog record={transcriptRecord} open={!!transcriptRecord} onClose={() => setTranscriptRecord(null)} />
       <CustomerDetailsDialog record={customerRecord} open={!!customerRecord} onClose={() => setCustomerRecord(null)} />
       <TriggerCallDialog record={triggerCallRecord} open={!!triggerCallRecord} onClose={() => setTriggerCallRecord(null)} />
+      <ScheduleCallDialog record={scheduleCallRecord} open={!!scheduleCallRecord} onClose={() => setScheduleCallRecord(null)} />
     </div>
   );
 }
