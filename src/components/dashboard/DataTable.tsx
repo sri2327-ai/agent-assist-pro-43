@@ -276,6 +276,7 @@ export function DataTable({ data, loading }: DataTableProps) {
       <TranscriptDialog record={transcriptRecord} open={!!transcriptRecord} onClose={() => setTranscriptRecord(null)} />
       <CustomerDetailsDialog record={customerRecord} open={!!customerRecord} onClose={() => setCustomerRecord(null)} />
       <TriggerCallDialog record={triggerCallRecord} open={!!triggerCallRecord} onClose={() => setTriggerCallRecord(null)} />
+      <ScheduleCallDialog record={scheduleCallRecord} open={!!scheduleCallRecord} onClose={() => setScheduleCallRecord(null)} />
     </div>
   );
 }
