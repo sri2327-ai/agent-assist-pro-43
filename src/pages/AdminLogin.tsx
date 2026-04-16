@@ -4,7 +4,7 @@ import { useAdminAuthStore } from "@/store/useAdminAuthStore";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Shield, Mail, Lock, ArrowRight, Activity, Users, Stethoscope } from "lucide-react";
+import { Phone, Mail, Lock, ArrowRight, PhoneIncoming, PhoneOutgoing, CalendarCheck, CalendarX, Clock, Bot, Sparkles, Headphones } from "lucide-react";
 import { toast } from "sonner";
 
 export default function AdminLogin() {
@@ -43,7 +43,6 @@ export default function AdminLogin() {
             style={{ background: "radial-gradient(circle, rgba(20,49,81,0.8) 0%, transparent 70%)" }} />
           <div className="absolute top-[50%] left-[60%] h-64 w-64 rounded-full opacity-10 animate-float-slow"
             style={{ background: "radial-gradient(circle, rgba(56,126,137,0.5) 0%, transparent 70%)" }} />
-          {/* Floating particles */}
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
@@ -69,37 +68,69 @@ export default function AdminLogin() {
         />
 
         {/* Content */}
-        <div className="relative z-10 max-w-lg px-10 text-center animate-fade-in">
-          <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-3xl border border-white/20 shadow-2xl animate-scale-in"
+        <div className="relative z-10 max-w-xl px-10 text-center animate-fade-in">
+          {/* Logo / Icon */}
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl border border-white/20 shadow-2xl animate-scale-in"
             style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))", backdropFilter: "blur(20px)" }}>
-            <Shield className="h-12 w-12 text-white" />
+            <Bot className="h-10 w-10 text-white" />
           </div>
-          <h2 className="text-5xl font-bold text-white mb-3 tracking-tight">
-            Admin Portal
+
+          {/* Brand */}
+          <h2 className="text-5xl font-bold text-white mb-2 tracking-tight">
+            BRAVO AI
           </h2>
-          <p className="text-lg text-white/60 leading-relaxed mb-10">
-            Manage your healthcare operations with intelligent tools and real-time insights.
+          <p className="text-xl font-medium text-white/80 mb-4 tracking-wide">
+            Receptionist
           </p>
+
+          {/* Tagline */}
+          <p className="text-base text-white/50 leading-relaxed mb-10 max-w-md mx-auto">
+            Your intelligent AI-powered receptionist for healthcare — handling calls, scheduling, and patient communication around the clock.
+          </p>
+
+          {/* Feature pills */}
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            {[
+              { icon: PhoneIncoming, text: "Inbound Calls" },
+              { icon: PhoneOutgoing, text: "Outbound Calls" },
+              { icon: CalendarCheck, text: "Scheduling" },
+              { icon: Clock, text: "Rescheduling" },
+              { icon: CalendarX, text: "Cancellations" },
+            ].map((pill, i) => (
+              <div
+                key={pill.text}
+                className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-white/90 border border-white/15 animate-slide-up"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03))",
+                  backdropFilter: "blur(8px)",
+                  animationDelay: `${0.1 + i * 0.1}s`,
+                }}
+              >
+                <pill.icon className="h-4 w-4 text-white/70" />
+                {pill.text}
+              </div>
+            ))}
+          </div>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4">
             {[
-              { icon: Users, label: "Doctors", value: "120+" },
-              { icon: Activity, label: "Calls/Day", value: "2.5K" },
-              { icon: Stethoscope, label: "Departments", value: "15" },
+              { icon: Headphones, label: "Calls Handled", value: "50K+" },
+              { icon: Sparkles, label: "AI Accuracy", value: "99.2%" },
+              { icon: Phone, label: "Avg Response", value: "<2s" },
             ].map((stat, i) => (
               <div
                 key={stat.label}
-                className="rounded-2xl border border-white/10 p-4 animate-slide-up"
+                className="rounded-2xl border border-white/10 p-5 animate-slide-up"
                 style={{
                   background: "linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
                   backdropFilter: "blur(10px)",
-                  animationDelay: `${0.2 + i * 0.15}s`,
+                  animationDelay: `${0.4 + i * 0.15}s`,
                 }}
               >
                 <stat.icon className="h-6 w-6 text-white/70 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-white">{stat.value}</p>
-                <p className="text-xs text-white/50">{stat.label}</p>
+                <p className="text-xs text-white/50 mt-0.5">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -115,55 +146,56 @@ export default function AdminLogin() {
               className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl shadow-lg"
               style={{ background: "linear-gradient(135deg, #143151, #387E89)" }}
             >
-              <Shield className="h-8 w-8 text-white" />
+              <Bot className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-foreground">Admin Portal</h1>
+            <h1 className="text-2xl font-bold text-foreground">BRAVO AI Receptionist</h1>
+            <p className="text-sm text-muted-foreground mt-1">Inbound & outbound calls · Scheduling</p>
           </div>
 
           <div className="space-y-2 mb-8">
-            <h1 className="text-2xl font-bold text-foreground">Admin Sign In</h1>
-            <p className="text-muted-foreground">Access the administration dashboard</p>
+            <h1 className="text-2xl font-bold text-foreground">Welcome Back</h1>
+            <p className="text-base text-muted-foreground">Sign in to manage your AI receptionist</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="admin-email" className="text-sm font-medium">Email</Label>
+              <Label htmlFor="admin-email" className="text-sm font-semibold">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Mail className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
                 <Input
                   id="admin-email"
                   type="email"
-                  placeholder="admin@hospital.com"
+                  placeholder="admin@clinic.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 h-11 rounded-xl border-border/60 focus:border-secondary transition-all"
+                  className="pl-10 h-12 rounded-xl border-border/60 text-base focus:border-secondary transition-all"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="admin-password" className="text-sm font-medium">Password</Label>
-                <button type="button" className="text-xs text-secondary hover:text-secondary/80 transition-colors">
+                <Label htmlFor="admin-password" className="text-sm font-semibold">Password</Label>
+                <button type="button" className="text-sm text-secondary hover:text-secondary/80 transition-colors font-medium">
                   Forgot password?
                 </button>
               </div>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Lock className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
                 <Input
                   id="admin-password"
                   type="password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 h-11 rounded-xl border-border/60 focus:border-secondary transition-all"
+                  className="pl-10 h-12 rounded-xl border-border/60 text-base focus:border-secondary transition-all"
                 />
               </div>
             </div>
 
             <Button
               type="submit"
-              className="w-full h-12 rounded-xl text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group text-white"
+              className="w-full h-12 rounded-xl text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group text-white"
               style={{ background: "linear-gradient(135deg, #143151, #387E89)" }}
               disabled={loading}
             >
@@ -174,25 +206,25 @@ export default function AdminLogin() {
                 </span>
               ) : (
                 <span className="flex items-center gap-2">
-                  Sign In to Admin
+                  Sign In
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               )}
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-xs text-muted-foreground">
-            Use any email & password to sign in (mock auth)
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            Use any email & password to sign in (demo)
           </p>
 
           <div className="mt-10 pt-6 border-t border-border/40 text-center">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Powered by{" "}
               <span
-                className="font-semibold bg-clip-text text-transparent"
+                className="font-bold bg-clip-text text-transparent"
                 style={{ backgroundImage: "linear-gradient(90deg, #143151, #387E89)" }}
               >
-                S10.AI Healthcare
+                BRAVO AI
               </span>
             </p>
           </div>
