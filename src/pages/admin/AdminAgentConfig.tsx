@@ -140,37 +140,44 @@ export default function AdminAgentConfig() {
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      {/* ── Top Bar ── */}
-      <div className="shrink-0 flex items-center justify-between border-b border-border/40 bg-card/50 px-4 py-3 gap-3 flex-wrap">
-        <div className="flex items-center gap-3 min-w-0">
-          <button onClick={() => navigate("/admin/agents")} className="p-1.5 rounded-lg hover:bg-accent transition-colors shrink-0">
-            <ArrowLeft className="h-4 w-4 text-muted-foreground" />
-          </button>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <h1 className="text-base font-semibold text-foreground truncate">{name}</h1>
-              <span className="text-xs text-muted-foreground">V2</span>
+      {/* ── Top Bar – Vibrant Gradient Hero ── */}
+      <div
+        className="shrink-0 relative overflow-hidden border-b border-border/40"
+        style={{ background: "linear-gradient(120deg, #667eea 0%, #764ba2 50%, #f093fb 100%)" }}
+      >
+        <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4), transparent 40%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.3), transparent 45%)" }} />
+        <div className="relative flex items-center justify-between px-4 sm:px-6 py-4 gap-3 flex-wrap">
+          <div className="flex items-center gap-3 min-w-0">
+            <button onClick={() => navigate("/admin/agents")} className="p-2 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-sm transition-all shrink-0">
+              <ArrowLeft className="h-5 w-5 text-white" />
+            </button>
+            <div className="h-11 w-11 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 shadow-lg">
+              <Bot className="h-6 w-6 text-white" />
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
-              <Badge variant="outline" className="text-[10px] rounded-full px-2 py-0">{typeLabel}</Badge>
-              <span>• No Phone Number</span>
-              <span className="hidden sm:inline">• ID: 024e…60c2</span>
-              <Copy className="h-3 w-3 cursor-pointer hover:text-foreground transition-colors hidden sm:block" />
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg sm:text-xl font-bold text-white truncate drop-shadow-sm">{name}</h1>
+                <span className="text-xs text-white/80 px-1.5 py-0.5 rounded-md bg-white/15">V2</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-white/85 flex-wrap mt-0.5">
+                <Badge className="text-[11px] rounded-full px-2.5 py-0.5 bg-white/20 text-white border-0 backdrop-blur-sm">{typeLabel}</Badge>
+                <span>• No Phone Number</span>
+                <span className="hidden sm:inline">• ID: 024e…60c2</span>
+                <Copy className="h-3.5 w-3.5 cursor-pointer hover:text-white transition-colors hidden sm:block" />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="rounded-xl gap-1.5 hidden sm:flex" onClick={handleSave}>
-            <Save className="h-3.5 w-3.5" />
-            Save
-          </Button>
-          <Button size="sm" className="rounded-xl gap-1.5 text-white" style={{ background: "linear-gradient(135deg, #22863a, #2ea043)" }} onClick={handleTest}>
-            <Play className="h-3.5 w-3.5" />
-            Test
-          </Button>
-          <Button size="sm" className="rounded-xl gap-1.5 text-white" style={{ background: "linear-gradient(135deg, #6f42c1, #8957e5)" }}>
-            Publish
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button size="sm" className="rounded-xl gap-1.5 bg-white/15 hover:bg-white/25 text-white border-0 backdrop-blur-sm hidden sm:flex" onClick={handleSave}>
+              <Save className="h-4 w-4" /> Save
+            </Button>
+            <Button size="sm" className="rounded-xl gap-1.5 text-white shadow-lg" style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }} onClick={handleTest}>
+              <Play className="h-4 w-4" /> Test
+            </Button>
+            <Button size="sm" className="rounded-xl gap-1.5 text-white shadow-lg" style={{ background: "linear-gradient(135deg, #f59e0b, #ea580c)" }}>
+              Publish
+            </Button>
+          </div>
         </div>
       </div>
 
