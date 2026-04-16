@@ -285,7 +285,7 @@ export function BuyNumberPanel() {
                 variant={buying === num.number ? "default" : "outline"}
                 className={cn(
                   "h-7 rounded-lg text-xs font-medium transition-all",
-                  buying === num.number && "bg-green-600 border-green-600 text-white pointer-events-none"
+                  buying === num.number && "bg-primary border-primary text-primary-foreground pointer-events-none"
                 )}
                 onClick={() => handleBuy(num.number)}
               >
