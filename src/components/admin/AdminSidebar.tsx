@@ -172,12 +172,13 @@ export function AdminSidebar() {
     sidebarMobileOpen,
     setSidebarMobileOpen,
     setActivePage,
+    activeFilter,
+    setActiveFilter,
   } = useAdminUIStore();
   const { logout } = useAdminAuthStore();
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
   const location = useLocation();
-  const { activeFilter, setActiveFilter } = useAdminUIStore();
 
   const currentKey =
     menuItems.find((m) => location.pathname.startsWith(m.path))?.key || "dashboard";
