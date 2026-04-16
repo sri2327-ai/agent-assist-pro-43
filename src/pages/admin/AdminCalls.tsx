@@ -12,14 +12,14 @@ function StatCard({ label, value, icon: Icon, gradient, delay }: {
   label: string; value: number; icon: React.ElementType; gradient: string; delay: string;
 }) {
   return (
-    <div className="rounded-xl border border-border/40 bg-card p-4 shadow-sm animate-slide-up" style={{ animationDelay: delay }}>
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-muted-foreground">{label}</p>
-          <p className="text-2xl font-bold text-card-foreground">{value}</p>
+    <div className="rounded-2xl border border-border/40 bg-card p-5 shadow-sm hover:shadow-md transition-all animate-slide-up" style={{ animationDelay: delay }}>
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-sm font-medium text-muted-foreground">{label}</p>
+          <p className="text-3xl font-bold text-card-foreground mt-1 tracking-tight">{value}</p>
         </div>
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl text-white" style={{ background: gradient }}>
-          <Icon className="h-5 w-5" />
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white shadow-sm" style={{ background: gradient }}>
+          <Icon className="h-6 w-6" />
         </div>
       </div>
     </div>
@@ -48,19 +48,19 @@ export default function AdminCalls() {
           <div className="flex gap-2">
             <Button
               onClick={() => setBulkMode("schedule")}
-              className="rounded-xl gap-2 text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="h-11 rounded-xl gap-2 px-5 text-base font-semibold text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: "linear-gradient(135deg, #143151, #387E89)" }}
             >
-              <CalendarClock className="h-4 w-4" />
+              <CalendarClock className="h-[18px] w-[18px]" />
               <span className="hidden sm:inline">Schedule All</span>
               <span className="sm:hidden">Schedule</span>
             </Button>
             <Button
               onClick={() => setBulkMode("trigger")}
-              className="rounded-xl gap-2 text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="h-11 rounded-xl gap-2 px-5 text-base font-semibold text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: "linear-gradient(135deg, #387E89, #143151)" }}
             >
-              <PhoneCall className="h-4 w-4" />
+              <PhoneCall className="h-[18px] w-[18px]" />
               <span className="hidden sm:inline">Trigger All</span>
               <span className="sm:hidden">Trigger</span>
             </Button>
