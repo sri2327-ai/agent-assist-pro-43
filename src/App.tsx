@@ -9,6 +9,13 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminDoctors from "./pages/admin/AdminDoctors";
+import AdminCalls from "./pages/admin/AdminCalls";
+import AdminSettings from "./pages/admin/AdminSettings";
+import { AdminLayout } from "./components/admin/AdminLayout";
+import { AdminProtectedRoute } from "./components/admin/AdminProtectedRoute";
 
 const queryClient = new QueryClient();
 
