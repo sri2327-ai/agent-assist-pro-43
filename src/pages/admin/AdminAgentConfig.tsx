@@ -249,9 +249,9 @@ export default function AdminAgentConfig() {
             <Accordion type="multiple" defaultValue={["general"]} className="space-y-4">
 
               {/* 1. General */}
-              <AccordionItem value="general" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Settings2} title="General Configuration" desc="Workspace, language, timezone & business hours" />
+              <AccordionItem value="general" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Settings2} title="General Configuration" desc="Workspace, language, timezone & business hours" gradient={G.general} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
