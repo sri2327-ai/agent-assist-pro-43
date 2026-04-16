@@ -99,52 +99,85 @@ export default function AdminAgentConfig() {
   const toggleDay = (d: string) =>
     setWorkingDays((prev) => (prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d]));
 
-  /* Section header helper */
-  const SectionTrigger = ({ icon: Icon, title, desc }: { icon: any; title: string; desc?: string }) => (
-    <div className="flex items-center gap-3 text-left">
-      <div className="h-8 w-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-        <Icon className="h-4 w-4" />
+  /* Section header helper – colorful gradient icon tile */
+  const SectionTrigger = ({
+    icon: Icon,
+    title,
+    desc,
+    gradient,
+  }: {
+    icon: any;
+    title: string;
+    desc?: string;
+    gradient: string;
+  }) => (
+    <div className="flex items-center gap-3 sm:gap-4 text-left w-full">
+      <div
+        className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl flex items-center justify-center shrink-0 text-white shadow-md transition-transform group-hover:scale-105"
+        style={{ background: gradient }}
+      >
+        <Icon className="h-5 w-5" />
       </div>
-      <div className="min-w-0">
-        <div className="text-sm font-semibold text-foreground">{title}</div>
-        {desc && <div className="text-xs text-muted-foreground truncate">{desc}</div>}
+      <div className="min-w-0 flex-1">
+        <div className="text-base font-semibold text-foreground leading-tight">{title}</div>
+        {desc && <div className="text-sm text-muted-foreground truncate mt-0.5">{desc}</div>}
       </div>
     </div>
   );
 
+  /* Color palette for sections */
+  const G = {
+    general: "linear-gradient(135deg, #667eea, #764ba2)",
+    call: "linear-gradient(135deg, #f093fb, #f5576c)",
+    ai: "linear-gradient(135deg, #4facfe, #00f2fe)",
+    script: "linear-gradient(135deg, #43e97b, #38f9d7)",
+    voice: "linear-gradient(135deg, #fa709a, #fee140)",
+    integration: "linear-gradient(135deg, #30cfd0, #330867)",
+    security: "linear-gradient(135deg, #ee0979, #ff6a00)",
+    inbound: "linear-gradient(135deg, #22c55e, #16a34a)",
+    outbound: "linear-gradient(135deg, #f97316, #ea580c)",
+  };
+
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      {/* ── Top Bar ── */}
-      <div className="shrink-0 flex items-center justify-between border-b border-border/40 bg-card/50 px-4 py-3 gap-3 flex-wrap">
-        <div className="flex items-center gap-3 min-w-0">
-          <button onClick={() => navigate("/admin/agents")} className="p-1.5 rounded-lg hover:bg-accent transition-colors shrink-0">
-            <ArrowLeft className="h-4 w-4 text-muted-foreground" />
-          </button>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <h1 className="text-base font-semibold text-foreground truncate">{name}</h1>
-              <span className="text-xs text-muted-foreground">V2</span>
+      {/* ── Top Bar – Vibrant Gradient Hero ── */}
+      <div
+        className="shrink-0 relative overflow-hidden border-b border-border/40"
+        style={{ background: "linear-gradient(120deg, #667eea 0%, #764ba2 50%, #f093fb 100%)" }}
+      >
+        <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4), transparent 40%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.3), transparent 45%)" }} />
+        <div className="relative flex items-center justify-between px-4 sm:px-6 py-4 gap-3 flex-wrap">
+          <div className="flex items-center gap-3 min-w-0">
+            <button onClick={() => navigate("/admin/agents")} className="p-2 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-sm transition-all shrink-0">
+              <ArrowLeft className="h-5 w-5 text-white" />
+            </button>
+            <div className="h-11 w-11 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 shadow-lg">
+              <Bot className="h-6 w-6 text-white" />
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
-              <Badge variant="outline" className="text-[10px] rounded-full px-2 py-0">{typeLabel}</Badge>
-              <span>• No Phone Number</span>
-              <span className="hidden sm:inline">• ID: 024e…60c2</span>
-              <Copy className="h-3 w-3 cursor-pointer hover:text-foreground transition-colors hidden sm:block" />
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg sm:text-xl font-bold text-white truncate drop-shadow-sm">{name}</h1>
+                <span className="text-xs text-white/80 px-1.5 py-0.5 rounded-md bg-white/15">V2</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-white/85 flex-wrap mt-0.5">
+                <Badge className="text-[11px] rounded-full px-2.5 py-0.5 bg-white/20 text-white border-0 backdrop-blur-sm">{typeLabel}</Badge>
+                <span>• No Phone Number</span>
+                <span className="hidden sm:inline">• ID: 024e…60c2</span>
+                <Copy className="h-3.5 w-3.5 cursor-pointer hover:text-white transition-colors hidden sm:block" />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="rounded-xl gap-1.5 hidden sm:flex" onClick={handleSave}>
-            <Save className="h-3.5 w-3.5" />
-            Save
-          </Button>
-          <Button size="sm" className="rounded-xl gap-1.5 text-white" style={{ background: "linear-gradient(135deg, #22863a, #2ea043)" }} onClick={handleTest}>
-            <Play className="h-3.5 w-3.5" />
-            Test
-          </Button>
-          <Button size="sm" className="rounded-xl gap-1.5 text-white" style={{ background: "linear-gradient(135deg, #6f42c1, #8957e5)" }}>
-            Publish
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button size="sm" className="rounded-xl gap-1.5 bg-white/15 hover:bg-white/25 text-white border-0 backdrop-blur-sm hidden sm:flex" onClick={handleSave}>
+              <Save className="h-4 w-4" /> Save
+            </Button>
+            <Button size="sm" className="rounded-xl gap-1.5 text-white shadow-lg" style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }} onClick={handleTest}>
+              <Play className="h-4 w-4" /> Test
+            </Button>
+            <Button size="sm" className="rounded-xl gap-1.5 text-white shadow-lg" style={{ background: "linear-gradient(135deg, #f59e0b, #ea580c)" }}>
+              Publish
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -153,66 +186,72 @@ export default function AdminAgentConfig() {
         <div className="mx-auto w-full max-w-4xl px-4 md:px-6 py-6 space-y-6">
 
           {/* Greeting Message */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-1.5">
-              <Label className="text-sm font-semibold">Greeting Message</Label>
-              <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
+          <div className="space-y-3 p-5 rounded-2xl border border-border/50 bg-gradient-to-br from-card to-card/60 shadow-sm">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg flex items-center justify-center text-white shadow-md" style={{ background: "linear-gradient(135deg, #4facfe, #00f2fe)" }}>
+                <MessageSquare className="h-4 w-4" />
+              </div>
+              <Label className="text-base font-semibold">Greeting Message</Label>
+              <HelpCircle className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
               <Switch checked={agentSpeaksFirst} onCheckedChange={setAgentSpeaksFirst} />
-              <span>Agent speaks first</span>
-              <span className="text-xs">•</span>
-              <span className="text-xs truncate flex-1 min-w-[120px]">"{greeting}"</span>
+              <span className="font-medium">Agent speaks first</span>
             </div>
             <Textarea
               value={greeting}
               onChange={(e) => setGreeting(e.target.value)}
-              className="rounded-xl text-sm resize-y min-h-[60px]"
+              className="rounded-xl text-base resize-y min-h-[70px] leading-relaxed"
             />
           </div>
 
           {/* Prompt */}
-          <div className="space-y-3">
+          <div className="space-y-3 p-5 rounded-2xl border border-border/50 bg-gradient-to-br from-card to-card/60 shadow-sm">
             <div className="flex items-center justify-between">
-              <Label className="text-sm font-semibold">Prompt</Label>
-              <a href="#" className="text-xs text-primary hover:underline flex items-center gap-1">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-lg flex items-center justify-center text-white shadow-md" style={{ background: "linear-gradient(135deg, #f093fb, #f5576c)" }}>
+                  <FileText className="h-4 w-4" />
+                </div>
+                <Label className="text-base font-semibold">Prompt</Label>
+              </div>
+              <a href="#" className="text-sm text-primary hover:underline flex items-center gap-1 font-medium">
                 Prompting Guidelines
-                <Globe className="h-3 w-3" />
+                <Globe className="h-3.5 w-3.5" />
               </a>
             </div>
-            <div className="flex items-center gap-2 border border-border/40 rounded-xl px-3 py-2 bg-muted/30 flex-wrap">
-              <button className="text-xs px-2.5 py-1 rounded-lg hover:bg-accent transition-colors text-muted-foreground flex items-center gap-1">
+            <div className="flex items-center gap-2 border border-border/50 rounded-xl px-3 py-2 bg-muted/40 flex-wrap">
+              <button className="text-sm px-3 py-1.5 rounded-lg hover:bg-background hover:shadow-sm transition-all text-muted-foreground hover:text-foreground flex items-center gap-1.5 font-medium">
                 <span className="text-primary font-mono">{"{"}</span> Pre-call variables
               </button>
-              <button className="text-xs px-2.5 py-1 rounded-lg hover:bg-accent transition-colors text-muted-foreground flex items-center gap-1">
-                <ChevronRight className="h-3 w-3 rotate-180" /> Action results
+              <button className="text-sm px-3 py-1.5 rounded-lg hover:bg-background hover:shadow-sm transition-all text-muted-foreground hover:text-foreground flex items-center gap-1.5 font-medium">
+                <ChevronRight className="h-3.5 w-3.5 rotate-180" /> Action results
               </button>
-              <button className="text-xs px-2.5 py-1 rounded-lg hover:bg-accent transition-colors text-muted-foreground flex items-center gap-1">
+              <button className="text-sm px-3 py-1.5 rounded-lg hover:bg-background hover:shadow-sm transition-all text-muted-foreground hover:text-foreground flex items-center gap-1.5 font-medium">
                 # Actions
               </button>
             </div>
             <Textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className="min-h-[260px] rounded-xl text-sm leading-relaxed resize-y font-normal"
+              className="min-h-[280px] rounded-xl text-base leading-relaxed resize-y"
               placeholder="Enter your agent's instructions..."
             />
           </div>
 
           {/* ── Global Settings Sections ── */}
-          <div className="pt-2">
-            <div className="mb-3 flex items-center gap-2">
-              <div className="h-px flex-1 bg-border/60" />
-              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Global Settings</span>
-              <div className="h-px flex-1 bg-border/60" />
+          <div className="pt-4">
+            <div className="mb-5 flex items-center gap-3">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-border" />
+              <span className="text-sm font-bold uppercase tracking-widest bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent px-2">⚙ Global Settings</span>
+              <div className="h-px flex-1 bg-gradient-to-l from-transparent via-border to-border" />
             </div>
 
-            <Accordion type="multiple" defaultValue={["general"]} className="space-y-3">
+            <Accordion type="multiple" defaultValue={["general"]} className="space-y-4">
 
               {/* 1. General */}
-              <AccordionItem value="general" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Settings2} title="General Configuration" desc="Workspace, language, timezone & business hours" />
+              <AccordionItem value="general" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Settings2} title="General Configuration" desc="Workspace, language, timezone & business hours" gradient={G.general} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -291,9 +330,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 2. Call Handling */}
-              <AccordionItem value="call-handling" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Phone} title="Call Handling Rules" desc="Duration, retries & silence detection" />
+              <AccordionItem value="call-handling" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Phone} title="Call Handling Rules" desc="Duration, retries & silence detection" gradient={G.call} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="grid gap-4 sm:grid-cols-3">
@@ -336,9 +375,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 3. AI Behavior */}
-              <AccordionItem value="ai-behavior" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Bot} title="AI Behavior Settings" desc="Tone, length, fallback & escalation" />
+              <AccordionItem value="ai-behavior" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Bot} title="AI Behavior Settings" desc="Tone, length, fallback & escalation" gradient={G.ai} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -394,9 +433,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 4. Script & Compliance */}
-              <AccordionItem value="script" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={FileText} title="Script & Compliance" desc="Disclaimers, language switching & restricted topics" />
+              <AccordionItem value="script" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={FileText} title="Script & Compliance" desc="Disclaimers, language switching & restricted topics" gradient={G.script} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="space-y-2">
@@ -427,9 +466,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 5. Voice & Audio */}
-              <AccordionItem value="voice" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Volume2} title="Voice & Audio Settings" desc="Voice, speed & noise suppression" />
+              <AccordionItem value="voice" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Volume2} title="Voice & Audio Settings" desc="Voice, speed & noise suppression" gradient={G.voice} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="space-y-2">
@@ -467,9 +506,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 6. Integration */}
-              <AccordionItem value="integration" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Plug} title="Integration Settings" desc="Webhooks, CRM & third-party integrations" />
+              <AccordionItem value="integration" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Plug} title="Integration Settings" desc="Webhooks, CRM & third-party integrations" gradient={G.integration} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="space-y-2">
@@ -518,9 +557,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 7. Security */}
-              <AccordionItem value="security" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Lock} title="Security & Permissions" desc="Roles, retention & PII masking" />
+              <AccordionItem value="security" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Lock} title="Security & Permissions" desc="Roles, retention & PII masking" gradient={G.security} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -569,9 +608,9 @@ export default function AdminAgentConfig() {
 
               {/* 8. Inbound */}
               {showInbound && (
-                <AccordionItem value="inbound" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                  <AccordionTrigger className="py-3 hover:no-underline">
-                    <SectionTrigger icon={PhoneIncoming} title="Inbound Global Settings" desc="Routing, queue & voicemail" />
+                <AccordionItem value="inbound" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                  <AccordionTrigger className="py-4 hover:no-underline">
+                    <SectionTrigger icon={PhoneIncoming} title="Inbound Global Settings" desc="Routing, queue & voicemail" gradient={G.inbound} />
                   </AccordionTrigger>
                   <AccordionContent className="pb-5 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -606,9 +645,9 @@ export default function AdminAgentConfig() {
 
               {/* 9. Outbound */}
               {showOutbound && (
-                <AccordionItem value="outbound" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                  <AccordionTrigger className="py-3 hover:no-underline">
-                    <SectionTrigger icon={PhoneOutgoing} title="Outbound Global Settings" desc="Dialing mode, retries & DND" />
+                <AccordionItem value="outbound" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                  <AccordionTrigger className="py-4 hover:no-underline">
+                    <SectionTrigger icon={PhoneOutgoing} title="Outbound Global Settings" desc="Dialing mode, retries & DND" gradient={G.outbound} />
                   </AccordionTrigger>
                   <AccordionContent className="pb-5 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
