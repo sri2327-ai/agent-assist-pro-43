@@ -224,7 +224,7 @@ export function BuyNumberPanel() {
       <div className="flex-1 min-h-0 overflow-auto rounded-xl border border-border bg-card">
         {/* Table Header */}
         <div className="sticky top-0 z-10 bg-muted/60 backdrop-blur-sm border-b border-border">
-          <div className="grid grid-cols-[1fr_80px_repeat(4,40px)_100px_80px_70px] items-center gap-1 px-4 py-2.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+          <div className="grid grid-cols-[1fr_90px_repeat(4,44px)_110px_90px_84px] items-center gap-2 px-5 py-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">
             <span>Number</span>
             <span>Type</span>
             <span className="text-center">Voice</span>
@@ -240,30 +240,30 @@ export function BuyNumberPanel() {
         {/* Table Rows */}
         {results.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
-            <Phone className="h-10 w-10 mb-3 opacity-30" />
-            <p className="text-sm font-medium">No numbers found</p>
-            <p className="text-xs mt-1">Try adjusting your search criteria</p>
+            <Phone className="h-12 w-12 mb-3 opacity-30" />
+            <p className="text-base font-semibold">No numbers found</p>
+            <p className="text-sm mt-1">Try adjusting your search criteria</p>
           </div>
         ) : (
           results.map((num, i) => (
             <div
               key={num.number}
               className={cn(
-                "grid grid-cols-[1fr_80px_repeat(4,40px)_100px_80px_70px] items-center gap-1 px-4 py-3 border-b border-border/40 hover:bg-accent/40 transition-colors animate-in fade-in duration-300",
+                "grid grid-cols-[1fr_90px_repeat(4,44px)_110px_90px_84px] items-center gap-2 px-5 py-3.5 border-b border-border/40 hover:bg-accent/40 transition-colors animate-in fade-in duration-300",
               )}
               style={{ animationDelay: `${i * 50}ms` }}
             >
               {/* Number + Location */}
               <div>
-                <p className="text-sm font-semibold text-primary">{num.number}</p>
-                <p className="text-[11px] text-muted-foreground flex items-center gap-1 mt-0.5">
-                  <MapPin className="h-3 w-3" />
+                <p className="text-base font-bold text-primary tracking-tight">{num.number}</p>
+                <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                  <MapPin className="h-3.5 w-3.5" />
                   {num.location}
                 </p>
               </div>
 
               {/* Type */}
-              <Badge variant="outline" className="text-[10px] h-5 w-fit rounded-md font-medium">
+              <Badge variant="outline" className="text-xs h-6 w-fit rounded-md font-semibold px-2">
                 {num.type}
               </Badge>
 
@@ -274,23 +274,23 @@ export function BuyNumberPanel() {
               <CapabilityIcon enabled={num.fax} icon={Printer} label="Fax" />
 
               {/* Address */}
-              <span className="hidden sm:block text-xs text-muted-foreground">{num.addressRequired}</span>
+              <span className="hidden sm:block text-sm text-muted-foreground">{num.addressRequired}</span>
 
               {/* Fee */}
-              <span className="text-sm font-semibold text-foreground text-right">{num.monthlyFee}</span>
+              <span className="text-base font-bold text-foreground text-right tracking-tight">{num.monthlyFee}</span>
 
               {/* Buy */}
               <Button
                 size="sm"
                 variant={buying === num.number ? "default" : "outline"}
                 className={cn(
-                  "h-7 rounded-lg text-xs font-medium transition-all",
+                  "h-8 rounded-lg text-sm font-semibold transition-all",
                   buying === num.number && "bg-primary border-primary text-primary-foreground pointer-events-none"
                 )}
                 onClick={() => handleBuy(num.number)}
               >
                 {buying === num.number ? (
-                  <><Check className="h-3 w-3 mr-1" /> Done</>
+                  <><Check className="h-3.5 w-3.5 mr-1" /> Done</>
                 ) : (
                   "Buy"
                 )}
@@ -300,8 +300,8 @@ export function BuyNumberPanel() {
         )}
       </div>
 
-      <p className="text-[11px] text-muted-foreground mt-3 shrink-0">
-        Showing {results.length} of {mockNumbers.length} available numbers
+      <p className="text-sm text-muted-foreground mt-3 shrink-0">
+        Showing <span className="font-semibold text-foreground">{results.length}</span> of {mockNumbers.length} available numbers
       </p>
     </div>
   );
