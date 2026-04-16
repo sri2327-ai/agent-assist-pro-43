@@ -41,7 +41,19 @@ const App = () => (
             <Route path="/reports" element={<Dashboard />} />
             <Route path="/settings" element={<Dashboard />} />
           </Route>
-          <Route path="*" element={<NotFound />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            element={
+              <AdminProtectedRoute>
+                <AdminLayout />
+              </AdminProtectedRoute>
+            }
+          >
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/doctors" element={<AdminDoctors />} />
+            <Route path="/admin/calls" element={<AdminCalls />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
