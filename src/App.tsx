@@ -54,6 +54,7 @@ const App = () => (
             <Route path="/admin/calls" element={<AdminCalls />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
