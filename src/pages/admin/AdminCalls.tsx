@@ -2,9 +2,11 @@ import { useState } from "react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { DataTable } from "@/components/dashboard/DataTable";
 import { BulkActionsDialog } from "@/components/dashboard/BulkActionsDialog";
+import { BuyNumberPanel } from "@/components/admin/BuyNumberPanel";
 import { mockCalls } from "@/data/mockCalls";
 import { Phone, CheckCircle, Clock, XCircle, CalendarClock, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAdminUIStore } from "@/store/useAdminUIStore";
 
 function StatCard({ label, value, icon: Icon, gradient, delay }: {
   label: string; value: number; icon: React.ElementType; gradient: string; delay: string;
@@ -26,11 +28,17 @@ function StatCard({ label, value, icon: Icon, gradient, delay }: {
 
 export default function AdminCalls() {
   const [bulkMode, setBulkMode] = useState<"schedule" | "trigger" | null>(null);
+  const { activeFilter } = useAdminUIStore();
 
   const total = mockCalls.length;
   const success = mockCalls.filter((c) => c.status === "Success").length;
   const pending = mockCalls.filter((c) => c.status === "Pending").length;
   const failed = mockCalls.filter((c) => c.status === "Failed").length;
+
+  // Show Buy Number panel when "add-phone" filter is selected
+  if (activeFilter === "add-phone") {
+    return <BuyNumberPanel />;
+  }
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
