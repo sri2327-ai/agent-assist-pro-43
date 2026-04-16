@@ -14,6 +14,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminDoctors from "./pages/admin/AdminDoctors";
 import AdminCalls from "./pages/admin/AdminCalls";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminAgents from "./pages/admin/AdminAgents";
+import AdminAgentConfig from "./pages/admin/AdminAgentConfig";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminProtectedRoute } from "./components/admin/AdminProtectedRoute";
 
@@ -52,6 +54,8 @@ const App = () => (
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/doctors" element={<AdminDoctors />} />
             <Route path="/admin/calls" element={<AdminCalls />} />
+            <Route path="/admin/agents" element={<AdminAgents />} />
+            <Route path="/admin/agents/new" element={<AdminAgentConfig />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
           </Route>
           <Route path="*" element={<NotFound />} />

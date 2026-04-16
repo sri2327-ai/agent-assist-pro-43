@@ -76,6 +76,15 @@ const subMenus: Record<string, { title: string; items: SubItem[] }> = {
       { label: "By Specialty", icon: Stethoscope, filter: "specialty" },
     ],
   },
+  agents: {
+    title: "Agents",
+    items: [
+      { label: "All Agents", icon: List, filter: "all" },
+      { label: "Inbound", icon: PhoneIncoming, filter: "inbound" },
+      { label: "Outbound", icon: PhoneOutgoing, filter: "outbound" },
+      { label: "In & Outbound", icon: ArrowLeftRight, filter: "inout" },
+    ],
+  },
   calls: {
     title: "Call Tracking",
     items: [
