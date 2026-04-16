@@ -25,6 +25,11 @@ import {
   Smartphone,
   Plus,
   CircleDot,
+  Bot,
+  PhoneIncoming,
+  PhoneOutgoing,
+  ArrowLeftRight,
+  List,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import s10Logo from "@/assets/s10-logo.png";
@@ -48,6 +53,7 @@ interface SubItem {
 const menuItems: MenuItem[] = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/admin/dashboard", key: "dashboard" },
   { label: "Doctors", icon: Stethoscope, path: "/admin/doctors", key: "doctors" },
+  { label: "Agents", icon: Bot, path: "/admin/agents", key: "agents" },
   { label: "Call Tracking", icon: Phone, path: "/admin/calls", key: "calls" },
   { label: "Settings", icon: Settings, path: "/admin/settings", key: "settings" },
 ];
