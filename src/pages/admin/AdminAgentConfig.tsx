@@ -99,18 +99,44 @@ export default function AdminAgentConfig() {
   const toggleDay = (d: string) =>
     setWorkingDays((prev) => (prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d]));
 
-  /* Section header helper */
-  const SectionTrigger = ({ icon: Icon, title, desc }: { icon: any; title: string; desc?: string }) => (
-    <div className="flex items-center gap-3 text-left">
-      <div className="h-8 w-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-        <Icon className="h-4 w-4" />
+  /* Section header helper – colorful gradient icon tile */
+  const SectionTrigger = ({
+    icon: Icon,
+    title,
+    desc,
+    gradient,
+  }: {
+    icon: any;
+    title: string;
+    desc?: string;
+    gradient: string;
+  }) => (
+    <div className="flex items-center gap-3 sm:gap-4 text-left w-full">
+      <div
+        className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl flex items-center justify-center shrink-0 text-white shadow-md transition-transform group-hover:scale-105"
+        style={{ background: gradient }}
+      >
+        <Icon className="h-5 w-5" />
       </div>
-      <div className="min-w-0">
-        <div className="text-sm font-semibold text-foreground">{title}</div>
-        {desc && <div className="text-xs text-muted-foreground truncate">{desc}</div>}
+      <div className="min-w-0 flex-1">
+        <div className="text-base font-semibold text-foreground leading-tight">{title}</div>
+        {desc && <div className="text-sm text-muted-foreground truncate mt-0.5">{desc}</div>}
       </div>
     </div>
   );
+
+  /* Color palette for sections */
+  const G = {
+    general: "linear-gradient(135deg, #667eea, #764ba2)",
+    call: "linear-gradient(135deg, #f093fb, #f5576c)",
+    ai: "linear-gradient(135deg, #4facfe, #00f2fe)",
+    script: "linear-gradient(135deg, #43e97b, #38f9d7)",
+    voice: "linear-gradient(135deg, #fa709a, #fee140)",
+    integration: "linear-gradient(135deg, #30cfd0, #330867)",
+    security: "linear-gradient(135deg, #ee0979, #ff6a00)",
+    inbound: "linear-gradient(135deg, #22c55e, #16a34a)",
+    outbound: "linear-gradient(135deg, #f97316, #ea580c)",
+  };
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
