@@ -9,6 +9,13 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminDoctors from "./pages/admin/AdminDoctors";
+import AdminCalls from "./pages/admin/AdminCalls";
+import AdminSettings from "./pages/admin/AdminSettings";
+import { AdminLayout } from "./components/admin/AdminLayout";
+import { AdminProtectedRoute } from "./components/admin/AdminProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +40,19 @@ const App = () => (
             <Route path="/agents" element={<Dashboard />} />
             <Route path="/reports" element={<Dashboard />} />
             <Route path="/settings" element={<Dashboard />} />
+          </Route>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            element={
+              <AdminProtectedRoute>
+                <AdminLayout />
+              </AdminProtectedRoute>
+            }
+          >
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/doctors" element={<AdminDoctors />} />
+            <Route path="/admin/calls" element={<AdminCalls />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
