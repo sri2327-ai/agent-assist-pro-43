@@ -36,7 +36,7 @@ const countries = [
 function CapabilityIcon({ enabled, icon: Icon, label }: { enabled: boolean; icon: React.ElementType; label: string }) {
   return (
     <div className="flex flex-col items-center gap-0.5" title={label}>
-      <Icon className={cn("h-4 w-4", enabled ? "text-primary" : "text-muted-foreground/30")} />
+      <Icon className={cn("h-[18px] w-[18px]", enabled ? "text-primary" : "text-muted-foreground/30")} />
     </div>
   );
 }
@@ -73,23 +73,23 @@ export function BuyNumberPanel() {
   return (
     <div className="flex h-full flex-col overflow-hidden animate-in fade-in slide-in-from-right-4 duration-300">
       {/* Header */}
-      <div className="shrink-0 pb-5">
-        <h1 className="text-2xl font-bold text-foreground">Buy a Number</h1>
-        <p className="text-sm text-muted-foreground mt-1">Search and purchase phone numbers for your account</p>
+      <div className="shrink-0 pb-6">
+        <h1 className="text-3xl font-bold text-foreground tracking-tight">Buy a Number</h1>
+        <p className="text-base text-muted-foreground mt-1.5">Search and purchase phone numbers for your account</p>
       </div>
 
       {/* Filters */}
-      <div className="shrink-0 space-y-4 pb-4">
+      <div className="shrink-0 space-y-5 pb-5">
         {/* Country + Capabilities row */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
           {/* Country */}
           <div className="flex-1 min-w-0">
-            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Country</label>
+            <label className="text-sm font-semibold text-foreground mb-2 block">Country</label>
             <div className="relative">
               <select
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full h-9 rounded-lg border border-border bg-card px-3 pr-8 text-sm text-foreground appearance-none focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                className="w-full h-11 rounded-lg border border-border bg-card px-3.5 pr-9 text-base text-foreground appearance-none focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
               >
                 {countries.map((c) => (
                   <option key={c.code} value={c.code}>
@@ -97,20 +97,20 @@ export function BuyNumberPanel() {
                   </option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
             </div>
           </div>
 
           {/* Capabilities */}
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Capabilities</label>
-            <div className="flex items-center gap-3">
+            <label className="text-sm font-semibold text-foreground mb-2 block">Capabilities</label>
+            <div className="flex items-center gap-2">
               {(["voice", "sms", "mms", "fax"] as const).map((cap) => (
                 <button
                   key={cap}
                   onClick={() => toggleCap(cap)}
                   className={cn(
-                    "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all border",
+                    "flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold transition-all border",
                     capabilities[cap]
                       ? "border-primary/30 bg-primary/10 text-primary"
                       : "border-border bg-card text-muted-foreground hover:border-primary/20"
@@ -125,14 +125,14 @@ export function BuyNumberPanel() {
         </div>
 
         {/* Search row */}
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Search criteria</label>
+            <label className="text-sm font-semibold text-foreground mb-2 block">Search criteria</label>
             <div className="flex rounded-lg border border-border overflow-hidden bg-card">
               <button
                 onClick={() => setSearchType("number")}
                 className={cn(
-                  "px-3 py-1.5 text-xs font-medium transition-colors",
+                  "px-4 py-2 text-sm font-semibold transition-colors",
                   searchType === "number" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent"
                 )}
               >
@@ -141,7 +141,7 @@ export function BuyNumberPanel() {
               <button
                 onClick={() => setSearchType("location")}
                 className={cn(
-                  "px-3 py-1.5 text-xs font-medium transition-colors border-l border-border",
+                  "px-4 py-2 text-sm font-semibold transition-colors border-l border-border",
                   searchType === "location" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent"
                 )}
               >
@@ -151,44 +151,44 @@ export function BuyNumberPanel() {
           </div>
 
           <div className="flex-1 min-w-0">
+            <label className="text-sm font-semibold text-foreground mb-2 block sm:invisible">Query</label>
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={searchType === "number" ? "Search by digits or phrases" : "Search by city or region"}
-              className="h-9 rounded-lg text-sm"
+              className="h-11 rounded-lg text-base"
               onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             />
           </div>
 
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Match to</label>
+            <label className="text-sm font-semibold text-foreground mb-2 block">Match to</label>
             <div className="relative">
               <select
                 value={matchTo}
                 onChange={(e) => setMatchTo(e.target.value)}
-                className="h-9 rounded-lg border border-border bg-card px-3 pr-8 text-sm text-foreground appearance-none focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                className="h-11 rounded-lg border border-border bg-card px-3.5 pr-9 text-base text-foreground appearance-none focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
               >
                 <option value="first">First part of number</option>
                 <option value="anywhere">Anywhere in number</option>
                 <option value="last">Last part of number</option>
               </select>
-              <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
             </div>
           </div>
 
           <Button
             onClick={handleSearch}
-            size="sm"
-            className="h-9 rounded-lg gap-1.5 text-white"
+            className="h-11 rounded-lg gap-2 px-5 text-base font-semibold text-white"
             style={{ background: "linear-gradient(135deg, #143151, #387E89)" }}
           >
-            <Search className="h-3.5 w-3.5" />
+            <Search className="h-4 w-4" />
             Search
           </Button>
 
           <button
             onClick={() => { setSearch(""); setResults(mockNumbers); }}
-            className="text-xs text-muted-foreground hover:text-primary transition-colors whitespace-nowrap"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors whitespace-nowrap pb-3"
           >
             Reset filters
           </button>
@@ -197,23 +197,23 @@ export function BuyNumberPanel() {
         {/* Advanced Search toggle */}
         <button
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors"
         >
-          {showAdvanced ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+          {showAdvanced ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           Advanced Search
         </button>
 
         {showAdvanced && (
-          <div className="rounded-xl border border-border bg-muted/30 p-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
-            <p className="text-xs text-muted-foreground">Search by area code, prefix, or characters you want in your phone number.</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="rounded-xl border border-border bg-muted/30 p-5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
+            <p className="text-sm text-muted-foreground">Search by area code, prefix, or characters you want in your phone number.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1 block">Area Code</label>
-                <Input placeholder="e.g. 606" className="h-8 text-sm rounded-lg" />
+                <label className="text-sm font-semibold text-foreground mb-1.5 block">Area Code</label>
+                <Input placeholder="e.g. 606" className="h-10 text-base rounded-lg" />
               </div>
               <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1 block">Contains</label>
-                <Input placeholder="e.g. 1234" className="h-8 text-sm rounded-lg" />
+                <label className="text-sm font-semibold text-foreground mb-1.5 block">Contains</label>
+                <Input placeholder="e.g. 1234" className="h-10 text-base rounded-lg" />
               </div>
             </div>
           </div>
