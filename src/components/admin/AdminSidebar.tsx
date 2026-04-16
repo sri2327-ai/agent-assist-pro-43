@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import s10Logo from "@/assets/s10-logo.png";
-import { useState } from "react";
+// useState removed - activeFilter now from store
 
 /* ── Types ──────────────────────────────────────────── */
 interface MenuItem {
@@ -172,12 +172,13 @@ export function AdminSidebar() {
     sidebarMobileOpen,
     setSidebarMobileOpen,
     setActivePage,
+    activeFilter,
+    setActiveFilter,
   } = useAdminUIStore();
   const { logout } = useAdminAuthStore();
   const { isMobile } = useResponsive();
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeFilter, setActiveFilter] = useState("overview");
 
   const currentKey =
     menuItems.find((m) => location.pathname.startsWith(m.path))?.key || "dashboard";
@@ -335,10 +336,11 @@ export function AdminSidebar() {
     >
       {sidebarInner}
 
-      {/* Collapse toggle */}
+      {/* Collapse toggle - positioned outside sidebar to prevent clipping */}
       <button
         onClick={toggleSidebar}
-        className="absolute -right-3 top-5 z-20 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm hover:bg-accent hover:text-foreground transition-colors"
+        className="absolute -right-3.5 top-5 z-30 flex h-7 w-7 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-md hover:bg-accent hover:text-foreground transition-all hover:scale-110"
+        style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
       >
         {collapsed ? (
           <ChevronRight className="h-3.5 w-3.5" />
