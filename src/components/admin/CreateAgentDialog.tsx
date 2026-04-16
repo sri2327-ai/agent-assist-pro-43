@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PhoneIncoming, PhoneOutgoing, ArrowLeftRight, FileEdit, Settings2, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { TemplateChatDialog } from "./TemplateChatDialog";
 
 type AgentType = "inbound" | "outbound" | "inout";
 type SetupMode = "scratch" | "predefined";
@@ -22,6 +23,7 @@ const setupModes = [
 export function CreateAgentDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const [step, setStep] = useState<1 | 2>(1);
   const [selectedType, setSelectedType] = useState<AgentType | null>(null);
+  const [chatOpen, setChatOpen] = useState(false);
   const navigate = useNavigate();
 
   const reset = () => { setStep(1); setSelectedType(null); };
@@ -31,6 +33,14 @@ export function CreateAgentDialog({ open, onOpenChange }: { open: boolean; onOpe
   const handleTypeSelect = (t: AgentType) => { setSelectedType(t); setStep(2); };
 
   const handleSetupSelect = (mode: SetupMode) => {
+    if (mode === "predefined") {
+      // Close this dialog and open the chat-based template flow
+      onOpenChange(false);
+      setTimeout(() => {
+        setChatOpen(true);
+      }, 200);
+      return;
+    }
     handleClose();
     navigate(`/admin/agents/new?type=${selectedType}&mode=${mode}`);
   };
