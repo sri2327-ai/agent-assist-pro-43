@@ -143,9 +143,9 @@ export default function AdminAgentConfig() {
       {/* ── Top Bar – Vibrant Gradient Hero ── */}
       <div
         className="shrink-0 relative overflow-hidden border-b border-border/40"
-        style={{ background: "linear-gradient(120deg, #667eea 0%, #764ba2 50%, #f093fb 100%)" }}
+        style={{ background: "linear-gradient(120deg, #143151 0%, #1f4a6b 50%, #387E89 100%)" }}
       >
-        <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4), transparent 40%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.3), transparent 45%)" }} />
+        <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 30%, rgba(165,204,243,0.35), transparent 40%), radial-gradient(circle at 80% 70%, rgba(56,126,137,0.45), transparent 45%)" }} />
         <div className="relative flex items-center justify-between px-4 sm:px-6 py-4 gap-3 flex-wrap">
           <div className="flex items-center gap-3 min-w-0">
             <button onClick={() => navigate("/admin/agents")} className="p-2 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-sm transition-all shrink-0">
