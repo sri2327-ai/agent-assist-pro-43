@@ -112,13 +112,13 @@ function NavIcon({
     <button
       onClick={onClick}
       className={cn(
-        "group relative flex items-center gap-3 w-full rounded-lg px-3 py-2.5 text-[13px] font-medium transition-all duration-200",
+        "group relative flex items-center gap-3 w-full rounded-lg px-3 py-3 text-sm font-medium transition-all duration-200",
         active
           ? "bg-white/15 text-white shadow-sm"
           : "text-white/55 hover:text-white hover:bg-white/8"
       )}
     >
-      <Icon className="h-[18px] w-[18px] shrink-0" />
+      <Icon className="h-[20px] w-[20px] shrink-0" />
       <span className="truncate">{item.label}</span>
       {active && (
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-white rounded-r-full" />
@@ -142,13 +142,13 @@ function SubNavItem({
     <button
       onClick={onClick}
       className={cn(
-        "flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[12px] font-medium transition-all duration-150",
+        "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-all duration-150",
         active
           ? "bg-white/12 text-white"
           : "text-white/50 hover:bg-white/6 hover:text-white/80"
       )}
     >
-      <Icon className={cn("h-3.5 w-3.5 shrink-0", active ? "text-white" : "text-white/35")} />
+      <Icon className={cn("h-4 w-4 shrink-0", active ? "text-white" : "text-white/35")} />
       <span className="truncate">{item.label}</span>
       {active && <ChevronRight className="h-3 w-3 ml-auto text-white/40" />}
     </button>
@@ -158,7 +158,7 @@ function SubNavItem({
 /* ── Section Label ─────────────────────────────────── */
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="px-3 pt-4 pb-1.5 text-[10px] font-semibold uppercase tracking-widest text-white/30">
+    <p className="px-3 pt-5 pb-2 text-[11px] font-semibold uppercase tracking-widest text-white/35">
       {children}
     </p>
   );
@@ -220,7 +220,7 @@ export function AdminSidebar() {
         <div className="flex items-center gap-2.5 px-4 h-14 shrink-0 border-b border-white/[0.06]">
           <img src={s10Logo} alt="S10.AI" className="h-6 w-auto" />
           {!collapsed && (
-            <span className="text-[13px] font-semibold text-white tracking-tight">
+            <span className="text-sm font-semibold text-white tracking-tight">
               Admin
             </span>
           )}
@@ -243,7 +243,7 @@ export function AdminSidebar() {
         <div className="px-2 pb-3 border-t border-white/[0.06] pt-2">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 w-full rounded-lg px-3 py-2.5 text-[13px] font-medium text-white/40 hover:text-white hover:bg-white/8 transition-all duration-200"
+            className="flex items-center gap-3 w-full rounded-lg px-3 py-3 text-sm font-medium text-white/40 hover:text-white hover:bg-white/8 transition-all duration-200"
           >
             <LogOut className="h-[18px] w-[18px]" />
             <span>Logout</span>
@@ -256,7 +256,7 @@ export function AdminSidebar() {
         <div className="w-[180px] flex flex-col border-r border-white/[0.04] animate-fade-in overflow-hidden">
           {/* Sub header */}
           <div className="flex items-center h-14 px-4 shrink-0 border-b border-white/[0.06]">
-            <h3 className="text-[12px] font-semibold text-white/70 uppercase tracking-wider">
+            <h3 className="text-[13px] font-semibold text-white/70 uppercase tracking-wider">
               {sub.title}
             </h3>
           </div>
