@@ -330,9 +330,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 2. Call Handling */}
-              <AccordionItem value="call-handling" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Phone} title="Call Handling Rules" desc="Duration, retries & silence detection" />
+              <AccordionItem value="call-handling" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Phone} title="Call Handling Rules" desc="Duration, retries & silence detection" gradient={G.call} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="grid gap-4 sm:grid-cols-3">
@@ -375,9 +375,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 3. AI Behavior */}
-              <AccordionItem value="ai-behavior" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Bot} title="AI Behavior Settings" desc="Tone, length, fallback & escalation" />
+              <AccordionItem value="ai-behavior" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Bot} title="AI Behavior Settings" desc="Tone, length, fallback & escalation" gradient={G.ai} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -433,9 +433,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 4. Script & Compliance */}
-              <AccordionItem value="script" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={FileText} title="Script & Compliance" desc="Disclaimers, language switching & restricted topics" />
+              <AccordionItem value="script" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={FileText} title="Script & Compliance" desc="Disclaimers, language switching & restricted topics" gradient={G.script} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="space-y-2">
@@ -466,9 +466,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 5. Voice & Audio */}
-              <AccordionItem value="voice" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Volume2} title="Voice & Audio Settings" desc="Voice, speed & noise suppression" />
+              <AccordionItem value="voice" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Volume2} title="Voice & Audio Settings" desc="Voice, speed & noise suppression" gradient={G.voice} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="space-y-2">
@@ -506,9 +506,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 6. Integration */}
-              <AccordionItem value="integration" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Plug} title="Integration Settings" desc="Webhooks, CRM & third-party integrations" />
+              <AccordionItem value="integration" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Plug} title="Integration Settings" desc="Webhooks, CRM & third-party integrations" gradient={G.integration} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="space-y-2">
@@ -557,9 +557,9 @@ export default function AdminAgentConfig() {
               </AccordionItem>
 
               {/* 7. Security */}
-              <AccordionItem value="security" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <SectionTrigger icon={Lock} title="Security & Permissions" desc="Roles, retention & PII masking" />
+              <AccordionItem value="security" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                <AccordionTrigger className="py-4 hover:no-underline">
+                  <SectionTrigger icon={Lock} title="Security & Permissions" desc="Roles, retention & PII masking" gradient={G.security} />
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -608,9 +608,9 @@ export default function AdminAgentConfig() {
 
               {/* 8. Inbound */}
               {showInbound && (
-                <AccordionItem value="inbound" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                  <AccordionTrigger className="py-3 hover:no-underline">
-                    <SectionTrigger icon={PhoneIncoming} title="Inbound Global Settings" desc="Routing, queue & voicemail" />
+                <AccordionItem value="inbound" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                  <AccordionTrigger className="py-4 hover:no-underline">
+                    <SectionTrigger icon={PhoneIncoming} title="Inbound Global Settings" desc="Routing, queue & voicemail" gradient={G.inbound} />
                   </AccordionTrigger>
                   <AccordionContent className="pb-5 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -645,9 +645,9 @@ export default function AdminAgentConfig() {
 
               {/* 9. Outbound */}
               {showOutbound && (
-                <AccordionItem value="outbound" className="border border-border/40 rounded-xl px-4 overflow-hidden bg-card/40">
-                  <AccordionTrigger className="py-3 hover:no-underline">
-                    <SectionTrigger icon={PhoneOutgoing} title="Outbound Global Settings" desc="Dialing mode, retries & DND" />
+                <AccordionItem value="outbound" className="group border border-border/50 rounded-2xl px-5 overflow-hidden bg-gradient-to-br from-card to-card/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+                  <AccordionTrigger className="py-4 hover:no-underline">
+                    <SectionTrigger icon={PhoneOutgoing} title="Outbound Global Settings" desc="Dialing mode, retries & DND" gradient={G.outbound} />
                   </AccordionTrigger>
                   <AccordionContent className="pb-5 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
