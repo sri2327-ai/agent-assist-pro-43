@@ -148,6 +148,17 @@ export function CallHistoryTable({ data, timezone }: Props) {
     { label: "Duration", key: "duration" },
   ];
 
+  const allColumns: { key: string; label: string }[] = [
+    ...columns.map((c) => ({ key: c.key as string, label: c.label })),
+    { key: "status", label: "Status" },
+    { key: "actions", label: "Actions" },
+  ];
+
+  const toggleCol = (key: string) =>
+    setVisibleCols((v) => ({ ...v, [key]: !v[key] }));
+  const showAllCols = () =>
+    setVisibleCols(Object.fromEntries(allColumns.map((c) => [c.key, true])));
+
   const getPageNumbers = () => {
     if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i);
     const pages: (number | "ellipsis")[] = [];
@@ -194,6 +205,45 @@ export function CallHistoryTable({ data, timezone }: Props) {
             <X className="mr-1 h-4 w-4" /> Reset
           </Button>
         )}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              size="sm"
+              variant="outline"
+              className="rounded-lg gap-1.5 border-border/60"
+            >
+              <Columns3 className="h-4 w-4" />
+              <span className="hidden sm:inline">Columns</span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-56 rounded-xl p-2">
+            <div className="flex items-center justify-between px-2 py-1.5">
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Show columns
+              </span>
+              <button
+                onClick={showAllCols}
+                className="text-xs font-medium text-secondary hover:underline"
+              >
+                Show all
+              </button>
+            </div>
+            <div className="space-y-0.5 mt-1">
+              {allColumns.map((c) => (
+                <label
+                  key={c.key}
+                  className="flex items-center gap-2.5 px-2 py-1.5 rounded-md hover:bg-muted/50 cursor-pointer text-sm"
+                >
+                  <Checkbox
+                    checked={visibleCols[c.key]}
+                    onCheckedChange={() => toggleCol(c.key)}
+                  />
+                  <span className="font-medium text-foreground/90">{c.label}</span>
+                </label>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
