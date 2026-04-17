@@ -213,7 +213,9 @@ export function AdminSidebar() {
   };
 
   const collapsed = !isMobile && sidebarCollapsed;
-  const sub = subMenus[currentKey];
+  // Only show secondary sub-panel for Doctors and Call Tracking
+  const pagesWithSubPanel = ["doctors", "calls"];
+  const sub = pagesWithSubPanel.includes(currentKey) ? subMenus[currentKey] : null;
   const showPhoneSub = currentKey === "calls";
 
   /* ── Sidebar Inner ─────────────────────────────── */
