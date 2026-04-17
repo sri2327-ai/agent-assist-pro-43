@@ -17,6 +17,7 @@ import AdminCallHistory from "./pages/admin/AdminCallHistory";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminAgents from "./pages/admin/AdminAgents";
 import AdminAgentConfig from "./pages/admin/AdminAgentConfig";
+import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminProtectedRoute } from "./components/admin/AdminProtectedRoute";
 
@@ -58,6 +59,7 @@ const App = () => (
             <Route path="/admin/call-history" element={<AdminCallHistory />} />
             <Route path="/admin/agents" element={<AdminAgents />} />
             <Route path="/admin/agents/new" element={<AdminAgentConfig />} />
+            <Route path="/admin/analytics" element={<AdminAnalytics />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
           </Route>
           <Route path="*" element={<NotFound />} />

@@ -35,6 +35,7 @@ import {
   List,
   History,
   Search,
+  BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import s10Logo from "@/assets/s10-logo.png";
@@ -60,6 +61,7 @@ const menuItems: MenuItem[] = [
   { label: "Agents", icon: Bot, path: "/admin/agents", key: "agents" },
   { label: "Call Tracking", icon: Phone, path: "/admin/calls", key: "calls" },
   { label: "Call History", icon: History, path: "/admin/call-history", key: "call-history" },
+  { label: "Analytics", icon: BarChart3, path: "/admin/analytics", key: "analytics" },
   { label: "Settings", icon: Settings, path: "/admin/settings", key: "settings" },
 ];
 
