@@ -1,7 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useMemo } from "react";
 import { useAdminUIStore } from "@/store/useAdminUIStore";
 import { useAdminAuthStore } from "@/store/useAdminAuthStore";
 import { useResponsive } from "@/hooks/useResponsive";
+import { mockDoctors } from "@/data/mockDoctors";
+import { Input } from "@/components/ui/input";
 import {
   LayoutDashboard,
   Stethoscope,
@@ -30,10 +33,11 @@ import {
   PhoneOutgoing,
   ArrowLeftRight,
   List,
+  History,
+  Search,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import s10Logo from "@/assets/s10-logo.png";
-// useState removed - activeFilter now from store
 
 /* ── Types ──────────────────────────────────────────── */
 interface MenuItem {
@@ -55,6 +59,7 @@ const menuItems: MenuItem[] = [
   { label: "Doctors", icon: Stethoscope, path: "/admin/doctors", key: "doctors" },
   { label: "Agents", icon: Bot, path: "/admin/agents", key: "agents" },
   { label: "Call Tracking", icon: Phone, path: "/admin/calls", key: "calls" },
+  { label: "Call History", icon: History, path: "/admin/call-history", key: "call-history" },
   { label: "Settings", icon: Settings, path: "/admin/settings", key: "settings" },
 ];
 
@@ -101,6 +106,12 @@ const subMenus: Record<string, { title: string; items: SubItem[] }> = {
       { label: "Security", icon: Shield, filter: "security" },
       { label: "Notifications", icon: Bell, filter: "notifications" },
       { label: "Support", icon: HelpCircle, filter: "support" },
+    ],
+  },
+  "call-history": {
+    title: "Call History",
+    items: [
+      { label: "All Calls", icon: List, filter: "all" },
     ],
   },
 };
@@ -213,10 +224,20 @@ export function AdminSidebar() {
   };
 
   const collapsed = !isMobile && sidebarCollapsed;
-  // Only show secondary sub-panel for Doctors and Call Tracking
-  const pagesWithSubPanel = ["doctors", "calls"];
+  // Show secondary sub-panel for Doctors, Call Tracking, and Call History
+  const pagesWithSubPanel = ["doctors", "calls", "call-history"];
   const sub = pagesWithSubPanel.includes(currentKey) ? subMenus[currentKey] : null;
   const showPhoneSub = currentKey === "calls";
+  const showDoctorList = currentKey === "call-history";
+  const [doctorSearch, setDoctorSearch] = useState("");
+  const filteredDoctors = useMemo(
+    () =>
+      mockDoctors.filter((d) =>
+        d.name.toLowerCase().includes(doctorSearch.toLowerCase()) ||
+        d.specialty.toLowerCase().includes(doctorSearch.toLowerCase())
+      ),
+    [doctorSearch]
+  );
 
   /* ── Sidebar Inner ─────────────────────────────── */
   const sidebarInner = (
@@ -302,6 +323,54 @@ export function AdminSidebar() {
                     onClick={() => setActiveFilter(item.filter || "")}
                   />
                 ))}
+              </>
+            )}
+
+            {/* Doctor search + list for Call History */}
+            {showDoctorList && (
+              <>
+                <SectionLabel>Doctors</SectionLabel>
+                <div className="px-1.5 pb-2">
+                  <div className="relative">
+                    <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/40" />
+                    <Input
+                      value={doctorSearch}
+                      onChange={(e) => setDoctorSearch(e.target.value)}
+                      placeholder="Search doctor…"
+                      className="h-8 pl-8 text-xs rounded-lg bg-white/[0.08] border-white/10 text-white placeholder:text-white/40 focus-visible:ring-white/20"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-0.5">
+                  {filteredDoctors.length === 0 ? (
+                    <p className="px-3 py-2 text-[11px] text-white/40">No doctors found.</p>
+                  ) : (
+                    filteredDoctors.map((d) => {
+                      const filter = `doctor:${d.name}`;
+                      const active = activeFilter === filter;
+                      return (
+                        <button
+                          key={d.id}
+                          onClick={() => setActiveFilter(filter)}
+                          className={cn(
+                            "flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[12px] font-medium text-left transition-all",
+                            active
+                              ? "bg-white/12 text-white"
+                              : "text-white/55 hover:bg-white/[0.06] hover:text-white/85"
+                          )}
+                        >
+                          <div className={cn(
+                            "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold",
+                            active ? "bg-white/20 text-white" : "bg-white/[0.08] text-white/60"
+                          )}>
+                            {d.name.replace("Dr. ", "").split(" ").map((p) => p[0]).join("").slice(0, 2)}
+                          </div>
+                          <span className="truncate">{d.name.replace("Dr. ", "")}</span>
+                        </button>
+                      );
+                    })
+                  )}
+                </div>
               </>
             )}
           </div>
