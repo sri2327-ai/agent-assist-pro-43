@@ -213,7 +213,9 @@ export function AdminSidebar() {
   };
 
   const collapsed = !isMobile && sidebarCollapsed;
-  const sub = subMenus[currentKey];
+  // Only show secondary sub-panel for Doctors and Call Tracking
+  const pagesWithSubPanel = ["doctors", "calls"];
+  const sub = pagesWithSubPanel.includes(currentKey) ? subMenus[currentKey] : null;
   const showPhoneSub = currentKey === "calls";
 
   /* ── Sidebar Inner ─────────────────────────────── */
@@ -346,7 +348,7 @@ export function AdminSidebar() {
     <aside
       className={cn(
         "sticky top-0 h-screen shrink-0 transition-all duration-300 overflow-hidden",
-        collapsed ? "w-[60px]" : "w-[360px]"
+        collapsed ? "w-[60px]" : sub ? "w-[360px]" : "w-[180px]"
       )}
     >
       {sidebarInner}
