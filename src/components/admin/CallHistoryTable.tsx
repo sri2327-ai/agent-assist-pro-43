@@ -38,6 +38,16 @@ export function CallHistoryTable({ data, timezone }: Props) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortKey, setSortKey] = useState<SortKey>("started_at");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [visibleCols, setVisibleCols] = useState<Record<string, boolean>>({
+    pat_name: true,
+    from: true,
+    to: true,
+    direction: true,
+    started_at: true,
+    duration: true,
+    status: true,
+    actions: true,
+  });
 
   const [summaryRec, setSummaryRec] = useState<CallHistoryRecord | null>(null);
   const [transcriptRec, setTranscriptRec] = useState<CallHistoryRecord | null>(null);
