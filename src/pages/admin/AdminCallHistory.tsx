@@ -7,7 +7,7 @@ import { mockCallHistory, computeStats } from "@/data/mockCallHistory";
 import { useAdminUIStore } from "@/store/useAdminUIStore";
 import { mockDoctors } from "@/data/mockDoctors";
 import {
-  RefreshCw, Phone, Clock, Activity, Radio, PhoneCall,
+  RefreshCw, Phone, Clock, Activity, Radio, PhoneCall, Eye, EyeOff,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
