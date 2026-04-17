@@ -108,6 +108,12 @@ const subMenus: Record<string, { title: string; items: SubItem[] }> = {
       { label: "Support", icon: HelpCircle, filter: "support" },
     ],
   },
+  "call-history": {
+    title: "Call History",
+    items: [
+      { label: "All Calls", icon: List, filter: "all" },
+    ],
+  },
 };
 
 /* ── Phone sub-items for Call Tracking ──────────────── */
