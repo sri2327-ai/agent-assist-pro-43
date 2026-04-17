@@ -97,10 +97,12 @@ export function formatHMS(seconds: number, mode: "long" | "short" = "long"): str
 }
 
 export const TIMEZONES = [
-  { value: "America/New_York", label: "America/New_York (EST)" },
-  { value: "America/Los_Angeles", label: "America/Los_Angeles (PST)" },
-  { value: "Europe/London", label: "Europe/London (GMT)" },
-  { value: "Asia/Kolkata", label: "Asia/Kolkata (IST)" },
-  { value: "Asia/Dubai", label: "Asia/Dubai (GST)" },
+  { value: "America/New_York", label: "Eastern Time" },
+  { value: "America/Chicago", label: "Central Time" },
+  { value: "America/Denver", label: "Mountain Time" },
+  { value: "America/Los_Angeles", label: "Pacific Time" },
+  { value: "Europe/London", label: "London (GMT)" },
+  { value: "Asia/Kolkata", label: "India (IST)" },
+  { value: "Asia/Dubai", label: "Dubai (GST)" },
   { value: "UTC", label: "UTC" },
 ];
