@@ -55,30 +55,21 @@ function StatCard({ label, value, icon: Icon, gradient, delay, live, pulse }: St
 export default function AdminCallHistory() {
   const { activeFilter } = useAdminUIStore();
   const [timezone, setTimezone] = useState("America/New_York");
-  const [quickRange, setQuickRange] = useState("all");
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+  const [range, setRange] = useState<DateRangeValue>(defaultRange());
   const [refreshing, setRefreshing] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const effectiveRange = dateRange ?? getRange(quickRange);
-
-  // Filter by date range and selected doctor sub-filter (uses doctor name from mockDoctors as patient match — demo)
   const filtered = useMemo(() => {
-    let result = mockCallHistory;
-    if (effectiveRange?.from) {
-      const fromMs = effectiveRange.from.getTime();
-      const toMs = (effectiveRange.to ?? effectiveRange.from).getTime() + (effectiveRange.to ? 0 : 86400000);
-      result = result.filter((r) => {
-        const t = new Date(r.started_at).getTime();
-        return t >= fromMs && t <= toMs;
-      });
-    }
+    let result = mockCallHistory.filter((r) => {
+      const t = new Date(r.started_at).getTime();
+      return t >= range.from.getTime() && t <= range.to.getTime();
+    });
     if (activeFilter && activeFilter !== "all" && activeFilter.startsWith("doctor:")) {
       const doctorName = activeFilter.replace("doctor:", "");
       result = result.filter((r) => r.pat_name.toLowerCase().includes(doctorName.toLowerCase()));
     }
     return result;
-  }, [effectiveRange, activeFilter, refreshKey]);
+  }, [range, activeFilter, refreshKey]);
 
   const stats = useMemo(() => computeStats(filtered), [filtered]);
   const activeDoctor = activeFilter?.startsWith("doctor:") ? activeFilter.replace("doctor:", "") : null;
@@ -87,12 +78,6 @@ export default function AdminCallHistory() {
     setRefreshing(true);
     setTimeout(() => { setRefreshKey((k) => k + 1); setRefreshing(false); }, 700);
   };
-
-  const rangeLabel = effectiveRange?.from
-    ? effectiveRange.to
-      ? `${format(effectiveRange.from, "MMM d")} – ${format(effectiveRange.to, "MMM d, yyyy")}`
-      : format(effectiveRange.from, "MMM d, yyyy")
-    : "All time";
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -103,45 +88,17 @@ export default function AdminCallHistory() {
             subtitle={activeDoctor ? `Showing calls for ${activeDoctor}` : "Complete log of inbound and outbound calls"}
           />
           <div className="flex flex-wrap items-center gap-2">
-            {/* Quick range */}
-            <Select value={quickRange} onValueChange={(v) => { setQuickRange(v); setDateRange(undefined); }}>
-              <SelectTrigger className="h-10 w-[150px] rounded-lg"><SelectValue /></SelectTrigger>
-              <SelectContent className="rounded-xl">
-                {QUICK_RANGES.map((r) => <SelectItem key={r.key} value={r.key}>{r.label}</SelectItem>)}
-              </SelectContent>
-            </Select>
-
-            {/* Date range picker */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="h-10 rounded-lg gap-2 font-normal">
-                  <CalendarIcon className="h-4 w-4" />
-                  <span className="hidden sm:inline">{rangeLabel}</span>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 rounded-xl" align="end">
-                <Calendar
-                  mode="range"
-                  selected={dateRange}
-                  onSelect={(r) => { setDateRange(r); setQuickRange("custom"); }}
-                  numberOfMonths={2}
-                  className={cn("p-3 pointer-events-auto")}
-                />
-              </PopoverContent>
-            </Popover>
-
-            {/* Timezone */}
-            <Select value={timezone} onValueChange={setTimezone}>
-              <SelectTrigger className="h-10 w-[200px] rounded-lg"><SelectValue /></SelectTrigger>
-              <SelectContent className="rounded-xl">
-                {TIMEZONES.map((tz) => <SelectItem key={tz.value} value={tz.value}>{tz.label}</SelectItem>)}
-              </SelectContent>
-            </Select>
+            <DateRangeFilter
+              value={range}
+              onChange={setRange}
+              timezone={timezone}
+              onTimezoneChange={setTimezone}
+            />
 
             {/* Refresh */}
             <Button
               onClick={handleRefresh}
-              className="h-10 rounded-lg gap-2 text-white"
+              className="h-10 rounded-xl gap-2 text-white px-4"
               style={{ background: "linear-gradient(135deg, #143151, #387E89)" }}
             >
               <RefreshCw className={cn("h-4 w-4", refreshing && "animate-spin")} />
