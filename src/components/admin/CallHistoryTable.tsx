@@ -1,11 +1,13 @@
 import { useMemo, useState } from "react";
 import {
   Search, X, ChevronUp, ChevronDown, FileText, MessageSquare, User,
-  Download, FileSpreadsheet, FileType, ArrowDownLeft, ArrowUpRight,
+  Download, FileSpreadsheet, FileType, ArrowDownLeft, ArrowUpRight, Columns3,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import type { CallHistoryRecord } from "@/data/mockCallHistory";
 import { cn } from "@/lib/utils";
