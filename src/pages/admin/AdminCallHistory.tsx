@@ -1,45 +1,20 @@
 import { useMemo, useState } from "react";
-import { format } from "date-fns";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CallHistoryTable } from "@/components/admin/CallHistoryTable";
-import { mockCallHistory, computeStats, TIMEZONES } from "@/data/mockCallHistory";
+import { DateRangeFilter, DateRangeValue } from "@/components/admin/DateRangeFilter";
+import { mockCallHistory, computeStats } from "@/data/mockCallHistory";
 import { useAdminUIStore } from "@/store/useAdminUIStore";
 import { mockDoctors } from "@/data/mockDoctors";
 import {
-  CalendarIcon, RefreshCw, Phone, Clock, Activity, Radio, PhoneCall,
+  RefreshCw, Phone, Clock, Activity, Radio, PhoneCall,
 } from "lucide-react";
-import type { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
 
-const QUICK_RANGES = [
-  { key: "today", label: "Today" },
-  { key: "yesterday", label: "Yesterday" },
-  { key: "7d", label: "Last 7 days" },
-  { key: "30d", label: "Last 30 days" },
-  { key: "month", label: "This month" },
-  { key: "all", label: "All time" },
-];
-
-function getRange(key: string): DateRange | undefined {
+function defaultRange(): DateRangeValue {
   const now = new Date();
-  const start = new Date(now); start.setHours(0, 0, 0, 0);
-  const end = new Date(now); end.setHours(23, 59, 59, 999);
-  switch (key) {
-    case "today": return { from: start, to: end };
-    case "yesterday": {
-      const y = new Date(start); y.setDate(y.getDate() - 1);
-      const ye = new Date(y); ye.setHours(23, 59, 59, 999);
-      return { from: y, to: ye };
-    }
-    case "7d": { const f = new Date(start); f.setDate(f.getDate() - 6); return { from: f, to: end }; }
-    case "30d": { const f = new Date(start); f.setDate(f.getDate() - 29); return { from: f, to: end }; }
-    case "month": { const f = new Date(now.getFullYear(), now.getMonth(), 1); return { from: f, to: end }; }
-    default: return undefined;
-  }
+  const from = new Date(now); from.setHours(0, 0, 0, 0);
+  return { from, to: now };
 }
 
 interface StatCardProps {
