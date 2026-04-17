@@ -218,10 +218,20 @@ export function AdminSidebar() {
   };
 
   const collapsed = !isMobile && sidebarCollapsed;
-  // Only show secondary sub-panel for Doctors and Call Tracking
-  const pagesWithSubPanel = ["doctors", "calls"];
+  // Show secondary sub-panel for Doctors, Call Tracking, and Call History
+  const pagesWithSubPanel = ["doctors", "calls", "call-history"];
   const sub = pagesWithSubPanel.includes(currentKey) ? subMenus[currentKey] : null;
   const showPhoneSub = currentKey === "calls";
+  const showDoctorList = currentKey === "call-history";
+  const [doctorSearch, setDoctorSearch] = useState("");
+  const filteredDoctors = useMemo(
+    () =>
+      mockDoctors.filter((d) =>
+        d.name.toLowerCase().includes(doctorSearch.toLowerCase()) ||
+        d.specialty.toLowerCase().includes(doctorSearch.toLowerCase())
+      ),
+    [doctorSearch]
+  );
 
   /* ── Sidebar Inner ─────────────────────────────── */
   const sidebarInner = (
