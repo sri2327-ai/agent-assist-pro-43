@@ -267,61 +267,81 @@ export function CallHistoryTable({ data, timezone }: Props) {
         <table className="w-full text-sm">
           <thead className="sticky top-0 z-10 bg-muted/95 backdrop-blur-sm">
             <tr className="border-b">
-              {columns.map((c) => (
+              {columns.map((c) => visibleCols[c.key] && (
                 <th key={c.key} onClick={() => handleSort(c.key)}
                   className="cursor-pointer whitespace-nowrap px-4 py-3 text-left font-semibold text-muted-foreground hover:text-foreground select-none transition-colors">
                   <span className="inline-flex items-center gap-1">{c.label}<SortIcon col={c.key} /></span>
                 </th>
               ))}
-              <th className="px-4 py-3 text-left font-semibold text-muted-foreground">Status</th>
-              <th className="px-4 py-3 text-right font-semibold text-muted-foreground">Actions</th>
+              {visibleCols.status && (
+                <th className="px-4 py-3 text-left font-semibold text-muted-foreground">Status</th>
+              )}
+              {visibleCols.actions && (
+                <th className="px-4 py-3 text-right font-semibold text-muted-foreground">Actions</th>
+              )}
             </tr>
           </thead>
           <tbody>
             {paged.length === 0 ? (
-              <tr><td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">No call history found.</td></tr>
+              <tr><td colSpan={Object.values(visibleCols).filter(Boolean).length || 1} className="px-4 py-12 text-center text-muted-foreground">No call history found.</td></tr>
             ) : paged.map((r, idx) => {
               const isInbound = r.direction === "Inbound";
               return (
                 <tr key={r.id}
                   className="border-b last:border-0 hover:bg-muted/40 transition-colors animate-fade-in"
                   style={{ animationDelay: `${idx * 25}ms` }}>
-                  <td className="whitespace-nowrap px-4 py-3 font-medium">{r.pat_name}</td>
-                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{r.from}</td>
-                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{r.to}</td>
-                  <td className="whitespace-nowrap px-4 py-3">
-                    <span className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium",
-                      isInbound ? "bg-secondary/15 text-secondary" : "bg-primary/15 text-primary"
-                    )}>
-                      {isInbound ? <ArrowDownLeft className="h-3 w-3" /> : <ArrowUpRight className="h-3 w-3" />}
-                      {r.direction}
-                    </span>
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-xs">{fmt(r.started_at, timezone)}</td>
-                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{r.duration}</td>
-                  <td className="whitespace-nowrap px-4 py-3">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-success/15 text-success px-2.5 py-0.5 text-xs font-medium capitalize">
-                      <span className="h-1.5 w-1.5 rounded-full bg-success" />
-                      {r.status}
-                    </span>
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right">
-                    <div className="inline-flex gap-1">
-                      <Button size="sm" variant="ghost" onClick={() => setSummaryRec(r)}
-                        className="h-8 rounded-lg gap-1 text-xs hover:bg-primary/10 hover:text-primary">
-                        <FileText className="h-3.5 w-3.5" /><span className="hidden md:inline">Summary</span>
-                      </Button>
-                      <Button size="sm" variant="ghost" onClick={() => setTranscriptRec(r)}
-                        className="h-8 rounded-lg gap-1 text-xs hover:bg-secondary/10 hover:text-secondary">
-                        <MessageSquare className="h-3.5 w-3.5" /><span className="hidden md:inline">Transcript</span>
-                      </Button>
-                      <Button size="sm" variant="ghost" onClick={() => setPatientRec(r)}
-                        className="h-8 rounded-lg gap-1 text-xs hover:bg-accent/30">
-                        <User className="h-3.5 w-3.5" /><span className="hidden md:inline">Patient</span>
-                      </Button>
-                    </div>
-                  </td>
+                  {visibleCols.pat_name && (
+                    <td className="whitespace-nowrap px-4 py-3 font-medium">{r.pat_name}</td>
+                  )}
+                  {visibleCols.from && (
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{r.from}</td>
+                  )}
+                  {visibleCols.to && (
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{r.to}</td>
+                  )}
+                  {visibleCols.direction && (
+                    <td className="whitespace-nowrap px-4 py-3">
+                      <span className={cn(
+                        "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium",
+                        isInbound ? "bg-secondary/15 text-secondary" : "bg-primary/15 text-primary"
+                      )}>
+                        {isInbound ? <ArrowDownLeft className="h-3 w-3" /> : <ArrowUpRight className="h-3 w-3" />}
+                        {r.direction}
+                      </span>
+                    </td>
+                  )}
+                  {visibleCols.started_at && (
+                    <td className="whitespace-nowrap px-4 py-3 text-xs">{fmt(r.started_at, timezone)}</td>
+                  )}
+                  {visibleCols.duration && (
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{r.duration}</td>
+                  )}
+                  {visibleCols.status && (
+                    <td className="whitespace-nowrap px-4 py-3">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-success/15 text-success px-2.5 py-0.5 text-xs font-medium capitalize">
+                        <span className="h-1.5 w-1.5 rounded-full bg-success" />
+                        {r.status}
+                      </span>
+                    </td>
+                  )}
+                  {visibleCols.actions && (
+                    <td className="whitespace-nowrap px-4 py-3 text-right">
+                      <div className="inline-flex gap-1">
+                        <Button size="sm" variant="ghost" onClick={() => setSummaryRec(r)}
+                          className="h-8 rounded-lg gap-1 text-xs hover:bg-primary/10 hover:text-primary">
+                          <FileText className="h-3.5 w-3.5" /><span className="hidden md:inline">Summary</span>
+                        </Button>
+                        <Button size="sm" variant="ghost" onClick={() => setTranscriptRec(r)}
+                          className="h-8 rounded-lg gap-1 text-xs hover:bg-secondary/10 hover:text-secondary">
+                          <MessageSquare className="h-3.5 w-3.5" /><span className="hidden md:inline">Transcript</span>
+                        </Button>
+                        <Button size="sm" variant="ghost" onClick={() => setPatientRec(r)}
+                          className="h-8 rounded-lg gap-1 text-xs hover:bg-accent/30">
+                          <User className="h-3.5 w-3.5" /><span className="hidden md:inline">Patient</span>
+                        </Button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               );
             })}
