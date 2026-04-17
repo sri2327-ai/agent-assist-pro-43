@@ -7,7 +7,7 @@ import { mockCallHistory, computeStats } from "@/data/mockCallHistory";
 import { useAdminUIStore } from "@/store/useAdminUIStore";
 import { mockDoctors } from "@/data/mockDoctors";
 import {
-  RefreshCw, Phone, Clock, Activity, Radio, PhoneCall,
+  RefreshCw, Phone, Clock, Activity, Radio, PhoneCall, Eye, EyeOff,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -58,6 +58,7 @@ export default function AdminCallHistory() {
   const [range, setRange] = useState<DateRangeValue>(defaultRange());
   const [refreshing, setRefreshing] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showStats, setShowStats] = useState(true);
 
   const filtered = useMemo(() => {
     let result = mockCallHistory.filter((r) => {
@@ -95,6 +96,16 @@ export default function AdminCallHistory() {
               onTimezoneChange={setTimezone}
             />
 
+            {/* Toggle stats */}
+            <Button
+              variant="outline"
+              onClick={() => setShowStats((v) => !v)}
+              className="h-10 rounded-xl gap-2 px-3 border-border/60"
+            >
+              {showStats ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              <span className="hidden sm:inline">{showStats ? "Hide stats" : "Show stats"}</span>
+            </Button>
+
             {/* Refresh */}
             <Button
               onClick={handleRefresh}
@@ -107,19 +118,21 @@ export default function AdminCallHistory() {
           </div>
         </div>
 
-        {/* Stats — animated */}
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
-          <StatCard label="Total Calls" value={stats.total} icon={Phone}
-            gradient="linear-gradient(135deg, #143151, #1a3a5c)" delay="0s" />
-          <StatCard label="Total Duration" value={stats.totalDurationLabel} icon={Clock}
-            gradient="linear-gradient(135deg, #387E89, #4a9aa6)" delay="0.05s" />
-          <StatCard label="Average Duration" value={stats.avgDurationLabel} icon={Activity}
-            gradient="linear-gradient(135deg, #2a6070, #387E89)" delay="0.1s" />
-          <StatCard label="Active Calls" value={0} icon={PhoneCall} live pulse
-            gradient="linear-gradient(135deg, #22863a, #2ea043)" delay="0.15s" />
-          <StatCard label="Concurrent Calls" value={0} icon={Radio} live pulse
-            gradient="linear-gradient(135deg, #d29922, #e3b341)" delay="0.2s" />
-        </div>
+        {/* Stats — animated, collapsible */}
+        {showStats && (
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-5 animate-fade-in">
+            <StatCard label="Total Calls" value={stats.total} icon={Phone}
+              gradient="linear-gradient(135deg, #143151, #1a3a5c)" delay="0s" />
+            <StatCard label="Total Duration" value={stats.totalDurationLabel} icon={Clock}
+              gradient="linear-gradient(135deg, #387E89, #4a9aa6)" delay="0.05s" />
+            <StatCard label="Average Duration" value={stats.avgDurationLabel} icon={Activity}
+              gradient="linear-gradient(135deg, #2a6070, #387E89)" delay="0.1s" />
+            <StatCard label="Active Calls" value={0} icon={PhoneCall} live pulse
+              gradient="linear-gradient(135deg, #22863a, #2ea043)" delay="0.15s" />
+            <StatCard label="Concurrent Calls" value={0} icon={Radio} live pulse
+              gradient="linear-gradient(135deg, #d29922, #e3b341)" delay="0.2s" />
+          </div>
+        )}
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col">
